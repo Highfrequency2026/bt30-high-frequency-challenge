@@ -11,16 +11,16 @@ export default function Home() {
     <div className="animate-fade-in">
       {/* Hero */}
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.88} focalPointY={0.35} className="absolute inset-0 w-full h-full" />
+        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.92} focalPointY={0.4} className="absolute inset-0 w-full h-full" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
 
-        {/* Logo — prominent top-left corner */}
+        {/* Logo — transparent watermark, top-left corner, blend-mode removes its background */}
         <img
           src={HF_LOGO}
           alt="High Frequency — Digital Media"
-          className="absolute top-8 left-6 md:top-12 md:left-16 z-20 w-32 h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 object-cover drop-shadow-2xl"
-          style={{ filter: 'invert(1) hue-rotate(180deg)', objectPosition: 'center 15%', opacity: 0.35 }}
+          className="absolute top-6 left-6 md:top-10 md:left-12 z-20 w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain pointer-events-none"
+          style={{ filter: 'invert(1) brightness(1.2)', mixBlendMode: 'screen', opacity: 0.8 }}
         />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
