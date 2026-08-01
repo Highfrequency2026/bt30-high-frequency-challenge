@@ -23,15 +23,15 @@ export default function Home() {
           style={{ filter: 'invert(1) brightness(1.3) contrast(1.1)', mixBlendMode: 'screen', opacity: 1 }}
         />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-16 md:pb-20">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-12 md:pb-16">
           <div className="max-w-2xl">
-            <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-4 border border-teal/40 px-3 py-1.5 rounded-full">
+            <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-3 border border-teal/40 px-3 py-1.5 rounded-full">
               Premium Fitness & Wellness Platform
             </span>
-            <p className="text-base md:text-lg text-zinc-300 font-light mb-6 max-w-lg leading-relaxed">
+            <p className="text-sm md:text-base text-zinc-300 font-light mb-4 max-w-lg leading-relaxed">
               The operating system for your transformation. Workouts, nutrition, mindset, coaching, and community — all in one premium platform.
             </p>
-            <div className="border border-teal/20 bg-teal/5 rounded-xl p-5 mb-6 max-w-md">
+            <div className="border border-teal/20 bg-teal/5 rounded-xl p-4 mb-4 max-w-md">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-[9px] tracking-[0.3em] uppercase text-teal font-bold bg-teal/10 px-2 py-0.5 rounded-full">Featured Product</span>
                 <span className="text-zinc-600 text-xs">•</span>
