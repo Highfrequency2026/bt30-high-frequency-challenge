@@ -45,7 +45,7 @@ export const coaches = [
     role: 'High Frequency Sculpt In Coach',
     handle: '@gisela',
     bio: 'A dynamic fitness coach with a background in performance athletics. Gisela brings a powerful, results-driven approach to sculpting and conditioning, pushing members to unlock their full potential in every workout.',
-    image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/4ded2dc5d_Photo_2151.jpg',
+    image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/d5b3ded9c_Photo_66.jpg',
     specialties: ['Sculpt & Shape', 'Conditioning', 'Lower Body', 'Endurance'],
   },
 ];
