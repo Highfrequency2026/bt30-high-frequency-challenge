@@ -19,9 +19,9 @@ export default function ProductDetailModal({ product, onClose }) {
           <X className="w-5 h-5 text-white" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Image */}
-          <div className="relative aspect-square overflow-hidden bg-muted/10 flex items-center justify-center">
+          <div className="relative md:col-span-3 aspect-[4/3] md:aspect-auto md:min-h-[500px] overflow-hidden bg-muted/10 flex items-center justify-center">
             <Image src={product.image} alt={product.name} fittingType="fit" className="w-full h-full" />
             {product.tag && (
               <span className="absolute top-4 left-4 text-[9px] tracking-widest uppercase text-white font-bold bg-teal px-2.5 py-1 rounded-full">
@@ -31,7 +31,7 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           {/* Details */}
-          <div className="p-6 md:p-8 flex flex-col">
+          <div className="md:col-span-2 p-6 md:p-8 flex flex-col">
             <span className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">{product.category}</span>
             <h2 className="font-display text-2xl md:text-3xl text-white mt-2 mb-3">{product.name}</h2>
             <p className="text-2xl font-bold text-teal mb-4">{product.price}</p>
