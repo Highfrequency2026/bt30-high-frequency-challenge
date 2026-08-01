@@ -14,8 +14,8 @@ export default function Home() {
       {/* Hero */}
       <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden">
         <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.22} className="absolute inset-0 w-full h-full" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
 
         {/* Logo — top-right, fully visible, transparent background via blend mode */}
         <img
@@ -26,12 +26,12 @@ export default function Home() {
         />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-12 md:pb-16">
-          <div className="max-w-2xl">
-            <h1 className="font-display text-4xl md:text-6xl text-white mb-4 leading-tight">
-              Operate at a Higher Frequency.
+          <div className="max-w-xl">
+            <h1 className="font-display text-4xl md:text-5xl text-white mb-4 leading-tight">
+              Welcome to High Frequency.
             </h1>
-            <p className="text-sm md:text-base text-zinc-300 font-light mb-6 max-w-lg leading-relaxed">
-              More than a fitness app. High Frequency is your daily system for transforming your body, strengthening your mind, building lasting discipline, and becoming the highest version of yourself. Train. Learn. Recover. Grow. All in one premium platform.
+            <p className="text-sm md:text-base text-zinc-300 font-light mb-6 max-w-md leading-relaxed">
+              A premium ecosystem built to elevate your health, your mindset, your performance, and your life through world-class coaching, transformative programs, and an elite community.
             </p>
             <div className="border border-teal/20 bg-teal/5 rounded-xl p-4 mb-4 max-w-md">
               <div className="flex items-center gap-2 mb-2">
