@@ -29,7 +29,7 @@ export default function Home() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-6 md:pb-8">
           <div className="max-w-lg">
             <h1 className="font-display text-2xl md:text-6xl text-teal mb-3 leading-tight whitespace-nowrap">
-              Welcome to High Frequency.
+              Welcome to High Frequency App.
             </h1>
             <p className="text-xs md:text-sm text-zinc-300 font-light mb-5 max-w-md leading-relaxed">
               A premium ecosystem built to elevate your health, your mindset, your performance, and your life through world-class coaching, transformative programs, and an elite community.
