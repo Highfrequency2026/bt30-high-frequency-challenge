@@ -15,12 +15,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
 
-        {/* Logo — top corner, doesn't block hero image */}
+        {/* Logo — prominent top-right, semi-transparent so it doesn't block the hero image */}
         <img
           src={HF_LOGO}
           alt="High Frequency — Digital Media"
-          className="absolute top-6 right-6 md:top-8 md:right-12 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full object-cover drop-shadow-lg"
-          style={{ filter: 'invert(1) hue-rotate(180deg)', objectPosition: 'center 15%' }}
+          className="absolute top-8 right-6 md:top-12 md:right-16 z-20 w-32 h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 object-cover drop-shadow-2xl"
+          style={{ filter: 'invert(1) hue-rotate(180deg)', objectPosition: 'center 15%', opacity: 0.25 }}
         />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
