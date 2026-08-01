@@ -13,9 +13,10 @@ export default function Home() {
     <div className="animate-fade-in">
       {/* Hero */}
       <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden">
-        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.22} className="absolute inset-0 w-full h-full" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
+        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.18} className="absolute inset-0 w-full h-full" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-background/50 to-transparent" />
 
         {/* Logo — top-right, fully visible, transparent background via blend mode */}
         <img
@@ -25,7 +26,7 @@ export default function Home() {
           style={{ filter: 'invert(1) brightness(1.3) contrast(1.1)', mixBlendMode: 'screen', opacity: 1 }}
         />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-12 md:pb-16">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-10 md:pb-14">
           <div className="max-w-xl">
             <h1 className="font-display text-4xl md:text-5xl text-white mb-4 leading-tight">
               Welcome to High Frequency.
