@@ -51,7 +51,7 @@ export const coaches = [
   {
     id: 'hovo',
     name: 'Hovo',
-    role: 'High Frequency Strength Coach',
+    role: 'Founder & Strength Coach',
     handle: '@hovo',
     bio: 'A powerhouse strength and conditioning specialist with a passion for building athletic, resilient bodies. Hovo combines old-school intensity with modern programming to help members move better, lift heavier, and transform their physiques.',
     image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/264c0baeb_grok_image_1780341307689.jpg',
