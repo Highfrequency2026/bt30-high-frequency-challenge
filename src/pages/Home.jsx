@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Flame, TrendingUp, Droplet, ChevronRight, Dumbbell, Brain, Award } from 'lucide-react';
+import { Play, Flame, TrendingUp, Droplet, ChevronRight, Dumbbell, Brain, Award, MessageCircle, Mic, Radio, Calendar, Users, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays } from '@/data/challengeData';
 
@@ -18,24 +18,30 @@ export default function Home() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
           <div className="max-w-2xl">
             <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-4 border border-teal/40 px-3 py-1.5 rounded-full">
-              BT30™ Founders Edition
+              Premium Fitness & Wellness Platform
             </span>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white leading-[0.95] tracking-tight mb-6">
-              The High<br />Frequency<br /><span className="italic text-platinum">Method</span>
+            <h1 className="font-display text-6xl md:text-8xl lg:text-9xl text-white leading-[0.9] tracking-tight mb-4">
+              High<br /><span className="italic text-platinum">Frequency</span>
             </h1>
-            <p className="text-lg md:text-xl text-zinc-300 font-light mb-2 tracking-wide">
-              Featuring <span className="font-semibold text-white">Bre Tiesi</span>
+            <p className="text-base md:text-lg text-zinc-300 font-light mb-6 max-w-lg leading-relaxed">
+              The operating system for your transformation. Workouts, nutrition, mindset, coaching, and community — all in one premium platform.
             </p>
-            <p className="text-sm text-zinc-400 mb-8 max-w-md leading-relaxed">
-              30 days. 30 workouts. One transformation. Train with celebrity trainer Mike T and Bre Tiesi to operate at your highest frequency.
-            </p>
+            <div className="border border-teal/20 bg-teal/5 rounded-xl p-5 mb-6 max-w-md">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[9px] tracking-[0.3em] uppercase text-teal font-bold bg-teal/10 px-2 py-0.5 rounded-full">Featured Product</span>
+                <span className="text-zinc-600 text-xs">•</span>
+                <span className="text-xs text-zinc-400">Featuring Bre Tiesi</span>
+              </div>
+              <h3 className="font-display text-2xl text-white mb-1">BT30™ — The High Frequency Method</h3>
+              <p className="text-xs text-zinc-400">30 days. 30 workouts. One transformation.</p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/programs/bt30" className="group inline-flex items-center justify-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-teal/90 transition-all">
                 <Play className="w-4 h-4 fill-white" />
                 Start BT30™
               </Link>
               <Link to="/programs" className="inline-flex items-center justify-center gap-2 border border-platinum/30 text-platinum font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-white/5 transition-all">
-                Explore Programs
+                Explore Platform
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -127,6 +133,67 @@ export default function Home() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* High Frequency Ecosystem */}
+      <section className="border-t border-border bg-card/30">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+          <div className="text-center mb-12">
+            <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">The Ecosystem</span>
+            <h2 className="font-display text-3xl md:text-5xl text-white mt-2 mb-3">One Platform. Total Transformation.</h2>
+            <p className="text-zinc-400 text-sm max-w-2xl mx-auto">High Frequency brings together every element of your fitness journey — from workouts and nutrition to mindset, coaching, and community.</p>
+          </div>
+
+          {/* Platform Features Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-12">
+            {[
+              { label: 'Programs', icon: Dumbbell, to: '/programs' },
+              { label: 'Nutrition', icon: Droplet, to: '/nutrition' },
+              { label: 'Mindset', icon: Brain, to: '/mindset' },
+              { label: 'Progress', icon: TrendingUp, to: '/progress' },
+              { label: 'Community', icon: MessageCircle, to: '/community' },
+              { label: 'Podcast', icon: Mic, to: '/podcast' },
+              { label: 'Live Training', icon: Radio, to: '/live' },
+              { label: 'Events', icon: Calendar, to: '/events' },
+              { label: 'Coaches', icon: Users, to: '/coaches' },
+              { label: 'Store', icon: ShoppingBag, to: '/store' },
+            ].map(item => {
+              const Icon = item.icon;
+              return (
+                <Link key={item.label} to={item.to} className="group flex flex-col items-center gap-3 bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all">
+                  <Icon className="w-6 h-6 text-teal group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-medium text-white">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Featured Products */}
+          <div className="text-center mb-6">
+            <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Products</span>
+            <h3 className="font-display text-2xl text-white mt-1">High Frequency Programs</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link to="/programs/bt30" className="group relative overflow-hidden rounded-xl border border-teal/30 bg-teal/5 p-6 hover:border-teal/50 transition-all">
+              <span className="inline-block text-[9px] tracking-widest uppercase text-teal font-bold bg-teal/10 px-2 py-0.5 rounded-full mb-3">Active Now</span>
+              <h4 className="font-display text-2xl text-white mb-1">BT30™</h4>
+              <p className="text-xs text-platinum italic mb-2">Featuring Bre Tiesi</p>
+              <p className="text-xs text-zinc-400 mb-4">30 days. 30 workouts. The flagship High Frequency program.</p>
+              <span className="text-xs font-bold text-teal flex items-center gap-1 group-hover:gap-2 transition-all">Start Now <ArrowRight className="w-3 h-3" /></span>
+            </Link>
+            {[
+              { name: 'BT60™', sub: 'Full Transformation', desc: '60 days to a complete body and mind transformation.' },
+              { name: 'Glute Builder', sub: 'Sculpt & Shape', desc: 'Targeted glute and lower body sculpting program.' },
+            ].map(prog => (
+              <div key={prog.name} className="relative overflow-hidden rounded-xl border border-border bg-card p-6">
+                <span className="inline-block text-[9px] tracking-widest uppercase text-zinc-500 font-bold bg-muted/30 px-2 py-0.5 rounded-full mb-3">Coming Soon</span>
+                <h4 className="font-display text-2xl text-zinc-400 mb-1">{prog.name}</h4>
+                <p className="text-xs text-zinc-500 italic mb-2">{prog.sub}</p>
+                <p className="text-xs text-zinc-600">{prog.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
