@@ -14,7 +14,7 @@ export default function PageBrandingLogo({ hidden = false }) {
     <img
       src={BT_LOGO_URL}
       alt="BT — Bre Tiesi × High Frequency"
-      className="absolute top-4 right-4 md:top-6 md:right-8 z-30 w-16 h-20 md:w-20 md:h-24 lg:w-24 lg:h-28 object-contain object-top pointer-events-none"
+      className="absolute top-3 right-3 md:top-4 md:right-6 z-30 w-32 h-40 md:w-44 md:h-56 lg:w-56 lg:h-72 object-contain object-top pointer-events-none"
       style={{
         mixBlendMode: 'screen',
         filter: 'brightness(1.12) contrast(1.15) hue-rotate(-22deg) saturate(1.4) drop-shadow(0 2px 12px rgba(0,0,0,0.5))',
