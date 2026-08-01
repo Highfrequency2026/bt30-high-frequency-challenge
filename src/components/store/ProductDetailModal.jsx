@@ -21,8 +21,8 @@ export default function ProductDetailModal({ product, onClose }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Image */}
-          <div className="relative aspect-square md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
-            <Image src={product.image} alt={product.name} fittingType="fill" className="w-full h-full" />
+          <div className="relative aspect-square overflow-hidden bg-muted/10 flex items-center justify-center">
+            <Image src={product.image} alt={product.name} fittingType="fit" className="w-full h-full" />
             {product.tag && (
               <span className="absolute top-4 left-4 text-[9px] tracking-widest uppercase text-white font-bold bg-teal px-2.5 py-1 rounded-full">
                 {product.tag}
