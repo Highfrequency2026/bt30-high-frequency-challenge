@@ -1,5 +1,7 @@
 export const BRE_IMG = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/9c7469afa_bre_tiesi_7d9eee9a48b34dc4b86475e32d9fe89d.jpg";
 
+export const HF_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/f1f9fe9d8_ChatGPTImageJul31202605_45_18PM.png";
+
 export const programs = [
   { id: 'bt30', title: 'BT30™', subtitle: 'The High Frequency Method', featured: 'Bre Tiesi', description: '30 days. 30 workouts. One transformation.', duration: '30 Days', level: 'All Levels', status: 'active', image: BRE_IMG, tag: 'FEATURED' },
   { id: 'bt60', title: 'BT60™', subtitle: 'The Full Transformation', featured: 'Bre Tiesi', description: '60 days to a complete body and mind transformation.', duration: '60 Days', level: 'Intermediate', status: 'coming-soon', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80', tag: 'COMING SOON' },

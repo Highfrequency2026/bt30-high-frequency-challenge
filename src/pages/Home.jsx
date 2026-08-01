@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Play, Flame, TrendingUp, Droplet, ChevronRight, Dumbbell, Brain, Award, MessageCircle, Mic, Radio, Calendar, Users, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Image } from '@/components/ui/image';
-import { BRE_IMG, workoutDays } from '@/data/challengeData';
+import { BRE_IMG, HF_LOGO, workoutDays } from '@/data/challengeData';
 
 export default function Home() {
   const todayWorkout = workoutDays[0];
@@ -17,12 +17,15 @@ export default function Home() {
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
           <div className="max-w-2xl">
+            <img
+              src={HF_LOGO}
+              alt="High Frequency — Digital Media — Train. Stream. Transform."
+              className="w-40 md:w-48 h-auto mb-6 drop-shadow-2xl"
+              style={{ filter: 'invert(1) hue-rotate(180deg)' }}
+            />
             <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-4 border border-teal/40 px-3 py-1.5 rounded-full">
               Premium Fitness & Wellness Platform
             </span>
-            <h1 className="font-display text-6xl md:text-8xl lg:text-9xl text-white leading-[0.9] tracking-tight mb-4">
-              High<br /><span className="italic text-platinum">Frequency</span>
-            </h1>
             <p className="text-base md:text-lg text-zinc-300 font-light mb-6 max-w-lg leading-relaxed">
               The operating system for your transformation. Workouts, nutrition, mindset, coaching, and community — all in one premium platform.
             </p>

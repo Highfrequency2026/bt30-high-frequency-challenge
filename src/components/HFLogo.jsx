@@ -1,18 +1,28 @@
 import React from 'react';
 
+const LOGO_URL = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/f1f9fe9d8_ChatGPTImageJul31202605_45_18PM.png";
+
+const darkFilter = 'invert(1) hue-rotate(180deg)';
+
 export default function HFLogo({ compact = false, className = '' }) {
-  return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
-      <div className="relative w-9 h-9 flex items-center justify-center">
-        <div className="absolute inset-0 border border-platinum/30 rounded-sm rotate-45" />
-        <span className="relative text-teal font-black text-xs tracking-tighter">HF</span>
+  if (compact) {
+    return (
+      <div className={`relative w-9 h-9 rounded-full overflow-hidden flex-shrink-0 ${className}`}>
+        <img
+          src={LOGO_URL}
+          alt="High Frequency"
+          className="w-full h-full object-cover"
+          style={{ filter: darkFilter, objectPosition: 'center 15%' }}
+        />
       </div>
-      {!compact && (
-        <div className="flex flex-col leading-none">
-          <span className="text-[8px] tracking-[0.3em] text-zinc-500 font-medium uppercase">High</span>
-          <span className="text-sm font-bold tracking-[0.15em] text-white">FREQUENCY</span>
-        </div>
-      )}
-    </div>
+    );
+  }
+  return (
+    <img
+      src={LOGO_URL}
+      alt="High Frequency — Digital Media"
+      className={`w-32 h-auto ${className}`}
+      style={{ filter: darkFilter }}
+    />
   );
 }
