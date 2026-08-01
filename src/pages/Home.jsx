@@ -26,12 +26,12 @@ export default function Home() {
           style={{ filter: 'invert(1) brightness(1.3) contrast(1.1)', mixBlendMode: 'screen', opacity: 1 }}
         />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-10 md:pb-14">
-          <div className="max-w-xl">
-            <h1 className="font-display text-4xl md:text-5xl text-white mb-4 leading-tight">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-6 md:pb-8">
+          <div className="max-w-lg">
+            <h1 className="font-display text-3xl md:text-4xl text-white mb-3 leading-tight">
               Welcome to High Frequency.
             </h1>
-            <p className="text-sm md:text-base text-zinc-300 font-light mb-6 max-w-md leading-relaxed">
+            <p className="text-xs md:text-sm text-zinc-300 font-light mb-5 max-w-md leading-relaxed">
               A premium ecosystem built to elevate your health, your mindset, your performance, and your life through world-class coaching, transformative programs, and an elite community.
             </p>
             <div className="border border-teal/20 bg-teal/5 rounded-xl p-4 mb-4 max-w-md">
