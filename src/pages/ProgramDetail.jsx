@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Play, Dumbbell, Clock, TrendingUp, ChevronRight, Check } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays, equipment, fitnessLevels } from '@/data/challengeData';
+import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
 const weekLabels = ['Week One', 'Week Two', 'Week Three', 'Week Four', 'Final Week'];
 
@@ -10,6 +11,7 @@ export default function ProgramDetail() {
   const { programId } = useParams();
   const [activeWeek, setActiveWeek] = useState(1);
   const [tab, setTab] = useState('workouts');
+  const { completedCount, isCompleted } = useWorkoutProgress();
 
   const weekDays = workoutDays.filter(d => d.week === activeWeek);
 
@@ -64,6 +66,17 @@ export default function ProgramDetail() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-10">
         {tab === 'workouts' && (
           <>
+            {/* Progress bar */}
+            <div className="mb-8 bg-card border border-border rounded-xl p-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">Program Progress</span>
+                <span className="text-sm font-bold text-teal">{completedCount}/30 Days</span>
+              </div>
+              <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+                <div className="h-full bg-teal rounded-full transition-all" style={{ width: `${(completedCount / 30) * 100}%` }} />
+              </div>
+            </div>
+
             {/* Week selector */}
             <div className="flex gap-2 mb-8 overflow-x-auto no-scrollbar">
               {[1, 2, 3, 4, 5].map(w => (
@@ -88,14 +101,19 @@ export default function ProgramDetail() {
                   <Link
                     key={day.day}
                     to={`/workout/${day.day}`}
-                    className={`group flex items-center gap-4 bg-card border border-border ${typeColor} border-l-4 rounded-xl p-5 hover:border-primary/40 transition-all`}
+                    className={`group flex items-center gap-4 bg-card border border-border ${typeColor} border-l-4 rounded-xl p-5 hover:border-primary/40 transition-all ${isCompleted(day.day) ? 'opacity-80' : ''}`}
                   >
                     <div className="flex-shrink-0 w-14 h-14 rounded-lg bg-muted/30 flex items-center justify-center">
-                      <span className="font-display text-2xl text-white">{String(day.day).padStart(2, '0')}</span>
+                      {isCompleted(day.day) ? (
+                        <Check className="w-6 h-6 text-teal" />
+                      ) : (
+                        <span className="font-display text-2xl text-white">{String(day.day).padStart(2, '0')}</span>
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[9px] tracking-widest uppercase text-zinc-500 font-bold">{typeLabel}</span>
+                        {isCompleted(day.day) && <span className="text-[9px] tracking-widest uppercase text-teal font-bold">Completed</span>}
                       </div>
                       <h3 className="font-bold text-white text-sm truncate">{day.title}</h3>
                       <p className="text-xs text-zinc-500 truncate">{day.focus} · {day.duration}</p>

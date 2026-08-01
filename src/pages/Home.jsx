@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { Play, Flame, TrendingUp, Droplet, ChevronRight, Dumbbell, Brain, Award, MessageCircle, Mic, Radio, Calendar, Users, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, HF_LOGO, workoutDays } from '@/data/challengeData';
+import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
 export default function Home() {
   const todayWorkout = workoutDays[0];
+  const { completedCount } = useWorkoutProgress();
 
   return (
     <div className="animate-fade-in">
@@ -122,8 +124,8 @@ export default function Home() {
         {/* Stats Bar */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
           {[
-            { label: 'Day Streak', value: '1', icon: Flame },
-            { label: 'Workouts Done', value: '0', icon: Dumbbell },
+            { label: 'Day Streak', value: completedCount > 0 ? String(completedCount) : '0', icon: Flame },
+            { label: 'Workouts Done', value: String(completedCount), icon: Dumbbell },
             { label: 'Water Today', value: '0%', icon: Droplet },
             { label: 'Achievements', value: '0', icon: Award },
           ].map(stat => {

@@ -3,12 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { Play, Pause, ChevronLeft, ChevronRight, Check, Clock, TrendingUp, Dumbbell, Lightbulb, Heart, X, Loader2, Radio } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays } from '@/data/challengeData';
+import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
 export default function WorkoutDetail() {
   const { day } = useParams();
   const dayNum = parseInt(day) || 1;
   const workout = workoutDays.find(d => d.day === dayNum) || workoutDays[0];
-  const [completed, setCompleted] = useState(false);
+  const { isCompleted, toggleDay } = useWorkoutProgress();
+  const completed = isCompleted(dayNum);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -85,7 +87,7 @@ export default function WorkoutDetail() {
             <h2 className="font-display text-4xl text-white mb-3">Rest & Recover</h2>
             <p className="text-zinc-400 max-w-md mx-auto mb-8">{workout.coachTip}</p>
             <button
-              onClick={() => setCompleted(!completed)}
+              onClick={() => toggleDay(dayNum)}
               className={`inline-flex items-center gap-2 font-bold text-sm tracking-wider uppercase px-8 py-3.5 rounded-lg transition-all ${
                 completed ? 'bg-teal text-white' : 'border border-platinum/30 text-platinum hover:bg-white/5'
               }`}
@@ -177,7 +179,7 @@ export default function WorkoutDetail() {
 
             {/* Complete Button */}
             <button
-              onClick={() => setCompleted(!completed)}
+              onClick={() => toggleDay(dayNum)}
               className={`w-full flex items-center justify-center gap-2 font-bold text-sm tracking-wider uppercase py-4 rounded-lg transition-all ${
                 completed ? 'bg-teal text-white' : 'border border-platinum/30 text-platinum hover:bg-white/5'
               }`}
