@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar } from 'lucide-react';
 import HFLogo from '@/components/HFLogo';
+import PageBrandingLogo from '@/components/PageBrandingLogo';
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
@@ -64,7 +65,8 @@ export default function AppLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className={`md:ml-64 ${isHome ? '' : 'pb-24 md:pb-8'}`}>
+      <main className={`relative md:ml-64 ${isHome ? '' : 'pb-24 md:pb-8'}`}>
+        <PageBrandingLogo hidden={isHome} />
         <Outlet />
       </main>
 
