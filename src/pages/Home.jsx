@@ -74,7 +74,7 @@ export default function Home() {
         <Link to={`/workout/${todayWorkout.day}`} className="group block relative overflow-hidden rounded-2xl border border-border bg-card mb-8 hover:border-primary/40 transition-all">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-2/5 relative h-64 md:h-auto overflow-hidden">
-              <Image src={BRE_IMG} alt={todayWorkout.title} fittingType="fill" focalPointY={0.3} className="w-full h-full" />
+              <Image src={BRE_IMG} alt={todayWorkout.title} fittingType="fit" focalPointY={0.3} className="w-full h-full" />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80 md:bg-gradient-to-r" />
             </div>
             <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
