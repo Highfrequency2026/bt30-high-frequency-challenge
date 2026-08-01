@@ -19,7 +19,7 @@ export default function Home() {
         <img
           src={HF_LOGO}
           alt="High Frequency — Digital Media"
-          className="absolute top-3 right-6 md:top-5 md:right-12 z-20 w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain pointer-events-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+          className="absolute top-3 right-6 md:top-5 md:right-12 z-20 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 object-contain pointer-events-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
           style={{ filter: 'invert(1) brightness(1.3) contrast(1.1)', mixBlendMode: 'screen', opacity: 1 }}
         />
 
