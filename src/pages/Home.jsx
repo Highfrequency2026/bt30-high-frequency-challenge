@@ -11,7 +11,7 @@ export default function Home() {
     <div className="animate-fade-in">
       {/* Hero */}
       <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden">
-        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.3} className="absolute inset-0 w-full h-full" />
+        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.22} className="absolute inset-0 w-full h-full" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-black/30" />
 
@@ -19,11 +19,11 @@ export default function Home() {
         <img
           src={HF_LOGO}
           alt="High Frequency — Digital Media"
-          className="absolute top-6 right-6 md:top-10 md:right-12 z-20 w-32 h-32 md:w-44 md:h-44 lg:w-48 lg:h-48 object-contain pointer-events-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+          className="absolute top-3 right-6 md:top-5 md:right-12 z-20 w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 object-contain pointer-events-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
           style={{ filter: 'invert(1) brightness(1.3) contrast(1.1)', mixBlendMode: 'screen', opacity: 1 }}
         />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 md:pb-28">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-16 md:pb-20">
           <div className="max-w-2xl">
             <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-4 border border-teal/40 px-3 py-1.5 rounded-full">
               Premium Fitness & Wellness Platform
