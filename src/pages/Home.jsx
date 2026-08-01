@@ -28,7 +28,7 @@ export default function Home() {
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-6 md:pb-8">
           <div className="max-w-lg">
-            <h1 className="font-display text-2xl md:text-4xl text-teal mb-3 leading-tight whitespace-nowrap">
+            <h1 className="font-display font-black text-2xl md:text-6xl text-teal mb-3 leading-none whitespace-nowrap tracking-tight">
               Welcome to High Frequency.
             </h1>
             <p className="text-xs md:text-sm text-zinc-300 font-light mb-5 max-w-md leading-relaxed">
