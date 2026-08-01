@@ -106,7 +106,7 @@ export default function Progress() {
 
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12">
-      <div className="flex items-start justify-between mb-10 pr-36 md:pr-56">
+      <div className="flex items-start justify-between mb-10">
         <div>
           <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Your Journey</span>
           <h1 className="font-display text-4xl md:text-5xl text-white mt-2">Progress</h1>
