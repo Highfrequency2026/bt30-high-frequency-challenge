@@ -22,7 +22,7 @@ export default function Home() {
         <img
           src="https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/12a4b6940_ChatGPTImageAug1202608_03_36AM.png"
           alt="BT — Bre Tiesi × High Frequency"
-          className="absolute top-0 right-1 md:top-2 md:right-4 z-20 w-32 h-48 md:w-40 md:h-60 lg:w-48 lg:h-72 object-contain pointer-events-none"
+          className="absolute top-0 right-1 md:top-2 md:right-6 z-20 w-52 h-72 md:w-72 md:h-[28rem] lg:w-96 lg:h-[34rem] object-contain pointer-events-none"
           style={{ mixBlendMode: 'screen', filter: 'brightness(1.1) contrast(1.2)' }}
         />
 
