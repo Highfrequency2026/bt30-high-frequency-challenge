@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Radio, Play, Calendar, Clock, Users, Check } from 'lucide-react';
+import { Radio, Play, Pause, Calendar, Clock, Users, Check, X } from 'lucide-react';
 
 const liveClasses = [
   { day: 'Mon', date: 'Aug 4', time: '6:00 AM PST', title: 'Lower Body Burn with Mike T', duration: '45 min', spots: 50, filled: 32 },
@@ -19,6 +19,8 @@ const replays = [
 
 export default function LiveTraining() {
   const [reserved, setReserved] = useState({});
+  const [activeReplay, setActiveReplay] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12">
@@ -88,7 +90,11 @@ export default function LiveTraining() {
       <h2 className="font-display text-2xl text-white mb-4">Replay Library</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {replays.map((replay, i) => (
-          <div key={i} className="group bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer">
+          <div
+            key={i}
+            onClick={() => { setActiveReplay(replay); setIsPlaying(true); }}
+            className="group bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer"
+          >
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center group-hover:bg-teal group-hover:border-teal transition-all">
                 <Play className="w-4 h-4 fill-teal text-teal group-hover:fill-white group-hover:text-white" />
@@ -104,6 +110,60 @@ export default function LiveTraining() {
           </div>
         ))}
       </div>
+
+      {/* Video Player Modal */}
+      {activeReplay && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => { setActiveReplay(null); setIsPlaying(false); }}
+        >
+          <div
+            className="w-full max-w-3xl bg-card border border-border rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Video Area */}
+            <div className="relative aspect-video bg-black flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-teal/10 to-black" />
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="relative z-10 w-20 h-20 rounded-full bg-teal/20 border-2 border-teal flex items-center justify-center hover:bg-teal/30 hover:scale-105 transition-all"
+              >
+                {isPlaying ? (
+                  <Pause className="w-8 h-8 text-white fill-white" />
+                ) : (
+                  <Play className="w-8 h-8 text-white fill-white ml-1" />
+                )}
+              </button>
+              <button
+                onClick={() => { setActiveReplay(null); setIsPlaying(false); }}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 border border-border flex items-center justify-center hover:bg-black/70 transition-colors z-20"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                <div className="flex items-center gap-3">
+                  <button onClick={() => setIsPlaying(!isPlaying)} className="text-white">
+                    {isPlaying ? <Pause className="w-5 h-5 fill-white" /> : <Play className="w-5 h-5 fill-white" />}
+                  </button>
+                  <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+                    <div className={`h-full bg-teal rounded-full transition-all ${isPlaying ? 'w-1/3' : 'w-0'}`} />
+                  </div>
+                  <span className="text-xs text-white/60 font-medium">{activeReplay.duration}</span>
+                </div>
+              </div>
+            </div>
+            {/* Info Bar */}
+            <div className="p-5">
+              <h3 className="font-bold text-white text-lg">{activeReplay.title}</h3>
+              <div className="flex items-center gap-4 mt-2 text-xs text-zinc-500">
+                <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{activeReplay.date}</span>
+                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{activeReplay.duration}</span>
+                <span className="flex items-center gap-1"><Radio className="w-3.5 h-3.5" />Recorded Session</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
