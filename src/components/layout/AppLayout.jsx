@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag } from 'lucide-react';
+import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar } from 'lucide-react';
 import HFLogo from '@/components/HFLogo';
 
 const navItems = [
@@ -9,6 +9,10 @@ const navItems = [
   { to: '/nutrition', label: 'Nutrition', icon: Apple },
   { to: '/mindset', label: 'Mindset', icon: Brain },
   { to: '/progress', label: 'Progress', icon: TrendingUp },
+  { to: '/community', label: 'Community', icon: MessageCircle },
+  { to: '/podcast', label: 'Podcast', icon: Mic },
+  { to: '/live', label: 'Live', icon: Radio },
+  { to: '/events', label: 'Events', icon: Calendar },
   { to: '/coaches', label: 'Coaches', icon: Users },
   { to: '/store', label: 'Store', icon: ShoppingBag },
 ];
@@ -66,7 +70,7 @@ export default function AppLayout() {
 
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-lg border-t border-border z-40">
-        <div className="flex justify-around items-center px-1">
+        <div className="flex overflow-x-auto no-scrollbar items-center gap-1 px-2">
           {navItems.map(item => {
             const Icon = item.icon;
             return (
@@ -75,7 +79,7 @@ export default function AppLayout() {
                 to={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
-                  `flex flex-col items-center gap-0.5 py-2.5 px-2 min-w-[48px] transition-colors ${
+                  `flex flex-col items-center gap-0.5 py-2.5 px-2 min-w-[52px] flex-shrink-0 transition-colors ${
                     isActive ? 'text-primary' : 'text-muted-foreground'
                   }`
                 }

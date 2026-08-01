@@ -17,6 +17,10 @@ import Mindset from './pages/Mindset';
 import Progress from './pages/Progress';
 import Coaches from './pages/Coaches';
 import Store from './pages/Store';
+import Community from './pages/Community';
+import Podcast from './pages/Podcast';
+import LiveTraining from './pages/LiveTraining';
+import Events from './pages/Events';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -53,6 +57,10 @@ const AuthenticatedApp = () => {
         <Route path="/nutrition" element={<Nutrition />} />
         <Route path="/mindset" element={<Mindset />} />
         <Route path="/progress" element={<Progress />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/podcast" element={<Podcast />} />
+        <Route path="/live" element={<LiveTraining />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/coaches" element={<Coaches />} />
         <Route path="/store" element={<Store />} />
       </Route>
