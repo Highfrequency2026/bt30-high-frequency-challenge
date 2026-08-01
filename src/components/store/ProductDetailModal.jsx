@@ -9,7 +9,7 @@ export default function ProductDetailModal({ product, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in" onClick={onClose}>
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-4xl bg-card border border-border rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-6xl bg-card border border-border rounded-2xl overflow-hidden max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -19,10 +19,10 @@ export default function ProductDetailModal({ product, onClose }) {
           <X className="w-5 h-5 text-white" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-5">
-          {/* Image */}
-          <div className="relative md:col-span-3 aspect-[4/3] md:aspect-auto md:min-h-[500px] overflow-hidden bg-muted/10 flex items-center justify-center">
-            <Image src={product.image} alt={product.name} fittingType="fit" className="w-full h-full" />
+        <div className="flex flex-col">
+          {/* Image — full width, large */}
+          <div className="relative w-full overflow-hidden bg-muted/10 flex items-center justify-center">
+            <Image src={product.image} alt={product.name} fittingType="fit" className="w-full h-auto" />
             {product.tag && (
               <span className="absolute top-4 left-4 text-[9px] tracking-widest uppercase text-white font-bold bg-teal px-2.5 py-1 rounded-full">
                 {product.tag}
@@ -31,7 +31,7 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           {/* Details */}
-          <div className="md:col-span-2 p-6 md:p-8 flex flex-col">
+          <div className="p-6 md:p-8 flex flex-col">
             <span className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">{product.category}</span>
             <h2 className="font-display text-2xl md:text-3xl text-white mt-2 mb-3">{product.name}</h2>
             <p className="text-2xl font-bold text-teal mb-4">{product.price}</p>
