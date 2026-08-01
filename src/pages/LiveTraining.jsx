@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Radio, Play, Pause, Calendar, Clock, Users, Check, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Radio, Play, Pause, Calendar, Clock, Users, Check, X, Loader2 } from 'lucide-react';
 
 const liveClasses = [
   { day: 'Mon', date: 'Aug 4', time: '6:00 AM PST', title: 'Lower Body Burn with Mike T', duration: '45 min', spots: 50, filled: 32 },
@@ -21,6 +21,41 @@ export default function LiveTraining() {
   const [reserved, setReserved] = useState({});
   const [activeReplay, setActiveReplay] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const openReplay = (replay) => {
+    setActiveReplay(replay);
+    setLoading(true);
+    setIsPlaying(false);
+    setProgress(0);
+  };
+
+  const closeReplay = () => {
+    setActiveReplay(null);
+    setLoading(false);
+    setIsPlaying(false);
+    setProgress(0);
+  };
+
+  // Simulate buffer/load, then auto-play
+  useEffect(() => {
+    if (!activeReplay || !loading) return;
+    const timer = setTimeout(() => {
+      setLoading(false);
+      setIsPlaying(true);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [activeReplay, loading]);
+
+  // Simulated playback progress
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setProgress(p => p >= 100 ? 100 : p + 0.5);
+    }, 200);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12">
@@ -90,10 +125,10 @@ export default function LiveTraining() {
       <h2 className="font-display text-2xl text-white mb-4">Replay Library</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {replays.map((replay, i) => (
-          <div
+          <button
             key={i}
-            onClick={() => { setActiveReplay(replay); setIsPlaying(true); }}
-            className="group bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer"
+            onClick={() => openReplay(replay)}
+            className="group w-full text-left bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center group-hover:bg-teal group-hover:border-teal transition-all">
@@ -107,7 +142,7 @@ export default function LiveTraining() {
                 </div>
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
@@ -115,42 +150,61 @@ export default function LiveTraining() {
       {activeReplay && (
         <div
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => { setActiveReplay(null); setIsPlaying(false); }}
+          onClick={closeReplay}
         >
           <div
             className="w-full max-w-3xl bg-card border border-border rounded-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Video Area */}
-            <div className="relative aspect-video bg-black flex items-center justify-center">
+            <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-teal/10 to-black" />
+
+              {loading ? (
+                <div className="relative z-10 flex flex-col items-center gap-3">
+                  <Loader2 className="w-12 h-12 text-teal animate-spin" />
+                  <p className="text-xs text-zinc-400 tracking-wide">Loading replay...</p>
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setIsPlaying(!isPlaying)}
+                    className="relative z-10 w-20 h-20 rounded-full bg-teal/20 border-2 border-teal flex items-center justify-center hover:bg-teal/30 hover:scale-105 transition-all"
+                  >
+                    {isPlaying ? (
+                      <Pause className="w-8 h-8 text-white fill-white" />
+                    ) : (
+                      <Play className="w-8 h-8 text-white fill-white ml-1" />
+                    )}
+                  </button>
+                  {isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Radio className="w-32 h-32 text-teal/5" />
+                    </div>
+                  )}
+                </>
+              )}
+
               <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="relative z-10 w-20 h-20 rounded-full bg-teal/20 border-2 border-teal flex items-center justify-center hover:bg-teal/30 hover:scale-105 transition-all"
-              >
-                {isPlaying ? (
-                  <Pause className="w-8 h-8 text-white fill-white" />
-                ) : (
-                  <Play className="w-8 h-8 text-white fill-white ml-1" />
-                )}
-              </button>
-              <button
-                onClick={() => { setActiveReplay(null); setIsPlaying(false); }}
+                onClick={closeReplay}
                 className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 border border-border flex items-center justify-center hover:bg-black/70 transition-colors z-20"
               >
                 <X className="w-4 h-4 text-white" />
               </button>
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                <div className="flex items-center gap-3">
-                  <button onClick={() => setIsPlaying(!isPlaying)} className="text-white">
-                    {isPlaying ? <Pause className="w-5 h-5 fill-white" /> : <Play className="w-5 h-5 fill-white" />}
-                  </button>
-                  <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
-                    <div className={`h-full bg-teal rounded-full transition-all ${isPlaying ? 'w-1/3' : 'w-0'}`} />
+
+              {!loading && (
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                  <div className="flex items-center gap-3">
+                    <button onClick={() => setIsPlaying(!isPlaying)} className="text-white">
+                      {isPlaying ? <Pause className="w-5 h-5 fill-white" /> : <Play className="w-5 h-5 fill-white" />}
+                    </button>
+                    <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-teal rounded-full transition-all" style={{ width: `${progress}%` }} />
+                    </div>
+                    <span className="text-xs text-white/60 font-medium">{activeReplay.duration}</span>
                   </div>
-                  <span className="text-xs text-white/60 font-medium">{activeReplay.duration}</span>
                 </div>
-              </div>
+              )}
             </div>
             {/* Info Bar */}
             <div className="p-5">
