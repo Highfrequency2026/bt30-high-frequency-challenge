@@ -14,16 +14,16 @@ export default function Coaches() {
 
       <div className="space-y-6">
         {coaches.map(coach => (
-          <div key={coach.id} className={`group grid grid-cols-1 ${coach.id === 'gisela' ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-0 bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all`}>
+          <div key={coach.id} className="group grid grid-cols-1 md:grid-cols-3 gap-0 bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all">
             {/* Image */}
-            <div className={`relative overflow-hidden ${coach.id === 'gisela' ? 'h-80 md:h-full' : 'h-72 md:h-full'}`}>
-              <Image src={coach.image} alt={coach.name} fittingType="fill" focalPointX={0.5} focalPointY={0.18} className="w-full h-full" />
+            <div className="relative h-72 md:h-full overflow-hidden">
+              <Image src={coach.image} alt={coach.name} fittingType="fill" focalPointX={0.5} focalPointY={0.12} className="w-full h-full" />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/60 md:bg-gradient-to-r" />
               <div className="absolute inset-0 bg-gradient-to-t from-card/60 to-transparent md:bg-none" />
             </div>
 
             {/* Content */}
-            <div className={`${coach.id === 'gisela' ? 'md:col-span-1' : 'md:col-span-2'} p-8 flex flex-col justify-center`}>
+            <div className="md:col-span-2 p-8 flex flex-col justify-center">
               <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold mb-2">{coach.role}</span>
               <h2 className="font-display text-3xl md:text-4xl text-white mb-2">{coach.name}</h2>
               <p className="text-sm text-platinum italic mb-4 flex items-center gap-1.5">
