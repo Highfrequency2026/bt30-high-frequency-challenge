@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Play, ChevronLeft, ChevronRight, Check, Clock, TrendingUp, Dumbbell, Lightbulb, Heart } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Check, Clock, TrendingUp, Dumbbell, Lightbulb, Heart, X, Loader2, Radio } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays } from '@/data/challengeData';
 
@@ -9,6 +9,41 @@ export default function WorkoutDetail() {
   const dayNum = parseInt(day) || 1;
   const workout = workoutDays.find(d => d.day === dayNum) || workoutDays[0];
   const [completed, setCompleted] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoLoading, setVideoLoading] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const openVideo = () => {
+    setShowVideo(true);
+    setVideoLoading(true);
+    setIsPlaying(false);
+    setProgress(0);
+  };
+
+  const closeVideo = () => {
+    setShowVideo(false);
+    setVideoLoading(false);
+    setIsPlaying(false);
+    setProgress(0);
+  };
+
+  useEffect(() => {
+    if (!showVideo || !videoLoading) return;
+    const timer = setTimeout(() => {
+      setVideoLoading(false);
+      setIsPlaying(true);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [showVideo, videoLoading]);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setProgress(p => p >= 100 ? 100 : p + 0.5);
+    }, 200);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   const isRest = workout.type === 'rest';
   const prevDay = dayNum > 1 ? dayNum - 1 : null;
@@ -61,21 +96,21 @@ export default function WorkoutDetail() {
         ) : (
           <>
             {/* Watch Video Button */}
-            <a
-              href="#"
-              className="group flex items-center justify-between gap-4 bg-gradient-to-r from-teal/15 to-transparent border border-teal/30 rounded-xl p-5 mb-8 hover:border-teal/50 transition-all"
+            <button
+              onClick={openVideo}
+              className="group w-full flex items-center justify-between gap-4 bg-gradient-to-r from-teal/15 to-transparent border border-teal/30 rounded-xl p-5 mb-8 hover:border-teal/50 transition-all"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-teal flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-teal flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                   <Play className="w-5 h-5 fill-white text-white" />
                 </div>
-                <div>
+                <div className="text-left">
                   <p className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Video Library</p>
                   <h3 className="font-bold text-white">Watch Day {workout.day} Workout</h3>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-teal group-hover:translate-x-1 transition-transform" />
-            </a>
+            </button>
 
             {/* Exercises */}
             {workout.exercises.length > 0 && (
@@ -170,6 +205,77 @@ export default function WorkoutDetail() {
           )}
         </div>
       </div>
+
+      {/* Video Player Modal */}
+      {showVideo && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+          onClick={closeVideo}
+        >
+          <div
+            className="w-full max-w-3xl bg-card border border-border rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-teal/10 to-black" />
+
+              {videoLoading ? (
+                <div className="relative z-10 flex flex-col items-center gap-3">
+                  <Loader2 className="w-12 h-12 text-teal animate-spin" />
+                  <p className="text-xs text-zinc-400 tracking-wide">Loading Day {workout.day} workout...</p>
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setIsPlaying(!isPlaying)}
+                    className="relative z-10 w-20 h-20 rounded-full bg-teal/20 border-2 border-teal flex items-center justify-center hover:bg-teal/30 hover:scale-105 transition-all"
+                  >
+                    {isPlaying ? (
+                      <Pause className="w-8 h-8 text-white fill-white" />
+                    ) : (
+                      <Play className="w-8 h-8 text-white fill-white ml-1" />
+                    )}
+                  </button>
+                  {isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Radio className="w-32 h-32 text-teal/5" />
+                    </div>
+                  )}
+                </>
+              )}
+
+              <button
+                onClick={closeVideo}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 border border-border flex items-center justify-center hover:bg-black/70 transition-colors z-20"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+
+              {!videoLoading && (
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                  <div className="flex items-center gap-3">
+                    <button onClick={() => setIsPlaying(!isPlaying)} className="text-white">
+                      {isPlaying ? <Pause className="w-5 h-5 fill-white" /> : <Play className="w-5 h-5 fill-white" />}
+                    </button>
+                    <div className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-teal rounded-full transition-all" style={{ width: `${progress}%` }} />
+                    </div>
+                    <span className="text-xs text-white/60 font-medium">Day {workout.day}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="p-5">
+              <h3 className="font-bold text-white text-lg">Day {workout.day}: {workout.title}</h3>
+              <div className="flex items-center gap-4 mt-2 text-xs text-zinc-500">
+                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{workout.duration}</span>
+                <span className="flex items-center gap-1"><Dumbbell className="w-3.5 h-3.5" />{workout.focus}</span>
+                <span className="flex items-center gap-1"><Radio className="w-3.5 h-3.5" />Instructional Video</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
