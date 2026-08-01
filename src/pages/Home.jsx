@@ -15,14 +15,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
 
+        {/* Logo — top corner, doesn't block hero image */}
+        <img
+          src={HF_LOGO}
+          alt="High Frequency — Digital Media"
+          className="absolute top-6 right-6 md:top-8 md:right-12 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full object-cover drop-shadow-lg"
+          style={{ filter: 'invert(1) hue-rotate(180deg)', objectPosition: 'center 15%' }}
+        />
+
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
           <div className="max-w-2xl">
-            <img
-              src={HF_LOGO}
-              alt="High Frequency — Digital Media — Train. Stream. Transform."
-              className="w-40 md:w-48 h-auto mb-6 drop-shadow-2xl"
-              style={{ filter: 'invert(1) hue-rotate(180deg)' }}
-            />
             <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-4 border border-teal/40 px-3 py-1.5 rounded-full">
               Premium Fitness & Wellness Platform
             </span>
