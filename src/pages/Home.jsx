@@ -20,9 +20,10 @@ export default function Home() {
 
         {/* Logo — top-right, fully visible, transparent background via blend mode */}
         <img
-          src="https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/f1f9fe9d8_ChatGPTImageJul31202605_45_18PM.png"
+          src="https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/8377a256f_ChatGPTImageAug1202604_36_24AM.png"
           alt="High Frequency — Digital Media"
           className="absolute top-0 right-2 md:top-1 md:right-4 z-20 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 object-contain pointer-events-none"
+          style={{ mixBlendMode: 'screen' }}
         />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-6 md:pb-8">
