@@ -451,6 +451,7 @@ export const mindsetContent = {
 };
 
 export const merchandise = [
+  { name: 'Bre Tiesi Bands', price: '$45', image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/668e7e236_ChatGPTImageAug1202604_07_14AM.png', category: 'Equipment', tag: 'NEW' },
   { name: 'High Frequency Resistance Bands', price: '$35', image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&q=80', category: 'Equipment', tag: 'BESTSELLER' },
   { name: 'Premium Logo Hoodie', price: '$85', image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&q=80', category: 'Apparel', tag: 'NEW' },
   { name: 'High Frequency Shaker Bottle', price: '$28', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80', category: 'Accessories' },
