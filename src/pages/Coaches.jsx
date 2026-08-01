@@ -3,6 +3,8 @@ import { Instagram, Award, ChevronRight } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { coaches } from '@/data/challengeData';
 
+const COACH_LOGO = 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/acd8f8aa9_ChatGPTImageJul31202605_23_48PM.png';
+
 export default function Coaches() {
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12">
@@ -18,6 +20,11 @@ export default function Coaches() {
             {/* Image */}
             <div className="relative h-72 md:h-full overflow-hidden">
               <Image src={coach.image} alt={coach.name} fittingType="fit" className="w-full h-full" />
+              <img
+                src={COACH_LOGO}
+                alt="High Frequency"
+                className="absolute bottom-3 left-1/2 -translate-x-1/2 w-16 md:w-20 object-contain pointer-events-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] z-10"
+              />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/60 md:bg-gradient-to-r" />
               <div className="absolute inset-0 bg-gradient-to-t from-card/60 to-transparent md:bg-none" />
             </div>
