@@ -1,6 +1,5 @@
-import React from 'react';
-import { Trophy, Flame, Heart, MessageCircle, TrendingUp, Users, ChevronRight } from 'lucide-react';
-import { Image } from '@/components/ui/image';
+import React, { useState } from 'react';
+import { Trophy, Flame, Heart, MessageCircle, TrendingUp, Users, Send, Image as ImageIcon } from 'lucide-react';
 import { BRE_IMG } from '@/data/challengeData';
 
 const leaderboard = [
@@ -11,10 +10,10 @@ const leaderboard = [
   { rank: 5, name: 'You', streak: 1, workouts: 0, avatar: BRE_IMG, isYou: true },
 ];
 
-const feed = [
-  { name: 'Sarah M.', time: '2h ago', text: 'Day 28 DONE! 🔥 Feeling stronger than ever. The HIIT 4 video nearly killed me but I pushed through!', likes: 24, avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80' },
-  { name: 'Jessica K.', time: '5h ago', text: 'Week 4 complete! Down 6 lbs and feeling incredible. Thank you Mike T and Bre for this program!', likes: 18, avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80' },
-  { name: 'Maria L.', time: '1d ago', text: 'Glute day is my favorite day. That burn is addictive! 💪', likes: 12, avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80' },
+const initialFeed = [
+  { id: 1, name: 'Sarah M.', time: '2h ago', text: 'Day 28 DONE! 🔥 Feeling stronger than ever. The HIIT 4 video nearly killed me but I pushed through!', likes: 24, liked: false, avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80', comments: [] },
+  { id: 2, name: 'Jessica K.', time: '5h ago', text: 'Week 4 complete! Down 6 lbs and feeling incredible. Thank you Mike T and Bre for this program!', likes: 18, liked: false, avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80', comments: [] },
+  { id: 3, name: 'Maria L.', time: '1d ago', text: 'Glute day is my favorite day. That burn is addictive! 💪', likes: 12, liked: false, avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80', comments: [] },
 ];
 
 const challenges = [
@@ -24,6 +23,36 @@ const challenges = [
 ];
 
 export default function Community() {
+  const [posts, setPosts] = useState(initialFeed);
+  const [newPost, setNewPost] = useState('');
+  const [openComments, setOpenComments] = useState({});
+  const [commentDrafts, setCommentDrafts] = useState({});
+
+  const handlePublish = () => {
+    const text = newPost.trim();
+    if (!text) return;
+    setPosts(prev => [
+      { id: Date.now(), name: 'You', time: 'just now', text, likes: 0, liked: false, avatar: BRE_IMG, comments: [] },
+      ...prev,
+    ]);
+    setNewPost('');
+  };
+
+  const toggleLike = (id) => {
+    setPosts(prev => prev.map(p => p.id === id ? { ...p, liked: !p.liked, likes: p.liked ? p.likes - 1 : p.likes + 1 } : p));
+  };
+
+  const toggleComments = (id) => {
+    setOpenComments(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const submitComment = (id) => {
+    const text = (commentDrafts[id] || '').trim();
+    if (!text) return;
+    setPosts(prev => prev.map(p => p.id === id ? { ...p, comments: [...p.comments, { name: 'You', text, avatar: BRE_IMG }] } : p));
+    setCommentDrafts(prev => ({ ...prev, [id]: '' }));
+  };
+
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12">
       <div className="mb-10">
@@ -35,9 +64,37 @@ export default function Community() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Feed */}
         <div className="lg:col-span-2 space-y-4">
+          {/* Create Post */}
+          <div className="bg-card border border-border rounded-xl p-5">
+            <div className="flex items-start gap-3">
+              <img src={BRE_IMG} alt="You" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+              <div className="flex-1">
+                <textarea
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  placeholder="Share your progress, wins, or motivation..."
+                  rows={3}
+                  className="w-full bg-muted/30 border border-border rounded-lg px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50 resize-none"
+                />
+                <div className="flex items-center justify-between mt-3">
+                  <button className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-teal transition-colors">
+                    <ImageIcon className="w-3.5 h-3.5" /> Photo
+                  </button>
+                  <button
+                    onClick={handlePublish}
+                    disabled={!newPost.trim()}
+                    className="flex items-center gap-2 bg-teal text-white font-bold text-xs tracking-wider uppercase px-5 py-2.5 rounded-lg hover:bg-teal/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <Send className="w-3.5 h-3.5" /> Publish
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <h2 className="font-display text-2xl text-white mb-2">Activity Feed</h2>
-          {feed.map((post, i) => (
-            <div key={i} className="bg-card border border-border rounded-xl p-5">
+          {posts.map(post => (
+            <div key={post.id} className="bg-card border border-border rounded-xl p-5">
               <div className="flex items-center gap-3 mb-3">
                 <img src={post.avatar} alt={post.name} className="w-10 h-10 rounded-full object-cover" />
                 <div>
@@ -47,13 +104,56 @@ export default function Community() {
               </div>
               <p className="text-sm text-zinc-300 mb-4 leading-relaxed">{post.text}</p>
               <div className="flex items-center gap-4 text-xs text-zinc-500">
-                <button className="flex items-center gap-1.5 hover:text-teal transition-colors">
-                  <Heart className="w-3.5 h-3.5" /> {post.likes}
+                <button
+                  onClick={() => toggleLike(post.id)}
+                  className={`flex items-center gap-1.5 transition-colors ${post.liked ? 'text-teal' : 'hover:text-teal'}`}
+                >
+                  <Heart className={`w-3.5 h-3.5 ${post.liked ? 'fill-teal text-teal' : ''}`} /> {post.likes}
                 </button>
-                <button className="flex items-center gap-1.5 hover:text-teal transition-colors">
-                  <MessageCircle className="w-3.5 h-3.5" /> Comment
+                <button
+                  onClick={() => toggleComments(post.id)}
+                  className={`flex items-center gap-1.5 transition-colors ${openComments[post.id] ? 'text-teal' : 'hover:text-teal'}`}
+                >
+                  <MessageCircle className="w-3.5 h-3.5" /> {post.comments.length > 0 ? `${post.comments.length} Comment${post.comments.length > 1 ? 's' : ''}` : 'Comment'}
                 </button>
               </div>
+
+              {/* Comments */}
+              {openComments[post.id] && (
+                <div className="mt-4 pt-4 border-t border-border space-y-3">
+                  {post.comments.length > 0 && (
+                    <div className="space-y-3">
+                      {post.comments.map((c, ci) => (
+                        <div key={ci} className="flex items-start gap-2.5">
+                          <img src={c.avatar} alt={c.name} className="w-7 h-7 rounded-full object-cover flex-shrink-0" />
+                          <div className="bg-muted/30 rounded-lg px-3 py-2 flex-1">
+                            <p className="text-xs font-bold text-white mb-0.5">{c.name}</p>
+                            <p className="text-xs text-zinc-300 leading-relaxed">{c.text}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <img src={BRE_IMG} alt="You" className="w-7 h-7 rounded-full object-cover flex-shrink-0" />
+                    <input
+                      type="text"
+                      value={commentDrafts[post.id] || ''}
+                      onChange={(e) => setCommentDrafts(prev => ({ ...prev, [post.id]: e.target.value }))}
+                      onKeyDown={(e) => { if (e.key === 'Enter') submitComment(post.id); }}
+                      placeholder="Write a comment..."
+                      className="flex-1 bg-muted/30 border border-border rounded-full px-4 py-2 text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50"
+                    />
+                    <button
+                      onClick={() => submitComment(post.id)}
+                      disabled={!(commentDrafts[post.id] || '').trim()}
+                      className="w-8 h-8 rounded-full bg-teal flex items-center justify-center hover:bg-teal/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+                    >
+                      <Send className="w-3.5 h-3.5 text-white" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
