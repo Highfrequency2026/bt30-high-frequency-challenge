@@ -16,6 +16,13 @@ const measurementFields = [
 
 const photoSlots = ['Before', 'Week 2', 'After'];
 
+const samplePhotos = [
+  'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=400&q=80',
+  'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80',
+  'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80',
+  'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&q=80',
+];
+
 const allAchievements = [
   { name: 'First Step', desc: 'Log your first entry', check: (e) => e.length >= 1 },
   { name: 'Consistent', desc: 'Log 3 entries', check: (e) => e.length >= 3 },
@@ -28,6 +35,7 @@ export default function Progress() {
   const [showForm, setShowForm] = useState(false);
   const [photos, setPhotos] = useState({});
   const [uploadingSlot, setUploadingSlot] = useState(null);
+  const [photoUrlInput, setPhotoUrlInput] = useState('');
   const fileRefs = useRef({});
   const [form, setForm] = useState({ weight: '', chest: '', waist: '', hips: '', rightArm: '', leftArm: '', rightThigh: '', leftThigh: '', bodyFat: '' });
 
@@ -67,6 +75,21 @@ export default function Progress() {
       console.error('Upload failed', e);
     }
     setUploadingSlot(null);
+  };
+
+  const firstEmptySlot = () => photoSlots.find(s => !photos[s]) || photoSlots[0];
+
+  const handleSamplePhoto = (url) => {
+    const slot = firstEmptySlot();
+    setPhotos(prev => ({ ...prev, [slot]: url }));
+  };
+
+  const handlePhotoUrl = () => {
+    const url = photoUrlInput.trim();
+    if (!url) return;
+    const slot = firstEmptySlot();
+    setPhotos(prev => ({ ...prev, [slot]: url }));
+    setPhotoUrlInput('');
   };
 
   const unlockedCount = allAchievements.filter(a => a.check(entries)).length;
@@ -203,9 +226,43 @@ export default function Progress() {
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Achievements */}
+        {/* Quick Add: Samples & URL */}
+        <div className="mt-5 pt-5 border-t border-border">
+          <p className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold mb-3">Quick Add — No File Dialog Needed</p>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {samplePhotos.map((url, i) => (
+              <button
+                key={i}
+                onClick={() => handleSamplePhoto(url)}
+                data-testid={`sample-photo-${i}`}
+                className="w-16 h-20 rounded-lg overflow-hidden border border-border hover:border-teal/50 transition-all flex-shrink-0"
+              >
+                <img src={url} alt={`Sample ${i + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={photoUrlInput}
+              onChange={e => setPhotoUrlInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handlePhotoUrl()}
+              placeholder="Or paste an image URL..."
+              data-testid="photo-url-input"
+              className="flex-1 bg-muted/30 border border-border rounded-lg px-3 py-2 text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50"
+            />
+            <button
+              onClick={handlePhotoUrl}
+              disabled={!photoUrlInput.trim()}
+              data-testid="photo-url-submit"
+              className="px-4 py-2 bg-teal text-white font-bold text-[10px] tracking-wider uppercase rounded-lg hover:bg-teal/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="bg-card border border-border rounded-xl p-6">
         <div className="flex items-center gap-2 mb-5">
           <Target className="w-5 h-5 text-teal" />
