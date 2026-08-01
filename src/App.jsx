@@ -7,7 +7,16 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
-import BT30DayChallenge from './pages/BT30DayChallenge';
+import AppLayout from '@/components/layout/AppLayout';
+import Home from './pages/Home';
+import Programs from './pages/Programs';
+import ProgramDetail from './pages/ProgramDetail';
+import WorkoutDetail from './pages/WorkoutDetail';
+import Nutrition from './pages/Nutrition';
+import Mindset from './pages/Mindset';
+import Progress from './pages/Progress';
+import Coaches from './pages/Coaches';
+import Store from './pages/Store';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -36,7 +45,17 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       {/* Add your page Route elements here */}
-      <Route path="/" element={<BT30DayChallenge />} />
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/programs" element={<Programs />} />
+        <Route path="/programs/:programId" element={<ProgramDetail />} />
+        <Route path="/workout/:day" element={<WorkoutDetail />} />
+        <Route path="/nutrition" element={<Nutrition />} />
+        <Route path="/mindset" element={<Mindset />} />
+        <Route path="/progress" element={<Progress />} />
+        <Route path="/coaches" element={<Coaches />} />
+        <Route path="/store" element={<Store />} />
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
