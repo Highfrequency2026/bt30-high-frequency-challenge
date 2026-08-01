@@ -27,7 +27,7 @@ export const coaches = [
     role: 'Founder & Celebrity Trainer',
     handle: '@forcefitnessinc',
     bio: 'Celebrity trainer and fitness expert with over fifteen years of experience shaping A-list bodies. Creator of the High Frequency Method, Mike T is renowned for his intense motivational coaching and proven results-driven methodology.',
-    image: 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&q=80',
+    image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/822cea634_2026-05-2815_13_33553-0700.jpg',
     specialties: ['Strength Training', 'HIIT', 'Athletic Performance', 'Body Transformation'],
   },
 ];
