@@ -27,11 +27,11 @@ export default function Home() {
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-12 md:pb-16">
           <div className="max-w-2xl">
-            <span className="inline-block text-[10px] tracking-[0.4em] uppercase text-teal font-bold mb-3 border border-teal/40 px-3 py-1.5 rounded-full">
-              Premium Fitness & Wellness Platform
-            </span>
-            <p className="text-sm md:text-base text-zinc-300 font-light mb-4 max-w-lg leading-relaxed">
-              The operating system for your transformation. Workouts, nutrition, mindset, coaching, and community — all in one premium platform.
+            <h1 className="font-display text-4xl md:text-6xl text-white mb-4 leading-tight">
+              Operate at a Higher Frequency.
+            </h1>
+            <p className="text-sm md:text-base text-zinc-300 font-light mb-6 max-w-lg leading-relaxed">
+              More than a fitness app. High Frequency is your daily system for transforming your body, strengthening your mind, building lasting discipline, and becoming the highest version of yourself. Train. Learn. Recover. Grow. All in one premium platform.
             </p>
             <div className="border border-teal/20 bg-teal/5 rounded-xl p-4 mb-4 max-w-md">
               <div className="flex items-center gap-2 mb-2">
