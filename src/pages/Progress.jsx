@@ -173,7 +173,8 @@ export default function Progress() {
                 ref={el => fileRefs.current[slot] = el}
                 type="file"
                 accept="image/*"
-                className="hidden"
+                data-testid={`photo-upload-${slot.toLowerCase().replace(/\s+/g, '-')}`}
+                className="sr-only"
                 onChange={(e) => handlePhotoUpload(slot, e.target.files?.[0])}
               />
               {photos[slot] ? (
