@@ -23,7 +23,7 @@ export default function Home() {
           src={HF_LOGO}
           alt="High Frequency — Digital Media"
           className="absolute top-0 right-2 md:top-1 md:right-4 z-20 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 object-contain pointer-events-none"
-          style={{ mixBlendMode: 'multiply' }}
+          style={{ mixBlendMode: 'screen' }}
         />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-6 md:pb-8">
