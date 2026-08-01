@@ -16,8 +16,8 @@ export default function Coaches() {
         {coaches.map(coach => (
           <div key={coach.id} className="group grid grid-cols-1 md:grid-cols-3 gap-0 bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all">
             {/* Image */}
-            <div className="relative h-72 md:h-full overflow-hidden">
-              <Image src={coach.image} alt={coach.name} fittingType="fit" className="w-full h-full" />
+            <div className="relative h-96 md:h-[30rem] overflow-hidden">
+              <Image src={coach.image} alt={coach.name} fittingType="fill" focalPointX={0.5} focalPointY={0.35} className="w-full h-full" />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/60 md:bg-gradient-to-r" />
               <div className="absolute inset-0 bg-gradient-to-t from-card/60 to-transparent md:bg-none" />
             </div>
