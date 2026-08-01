@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShoppingBag, Heart } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { merchandise } from '@/data/challengeData';
+import ProductDetailModal from '@/components/store/ProductDetailModal';
 
 export default function Store() {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12">
       <div className="mb-10">
@@ -25,7 +28,11 @@ export default function Store() {
       {/* Products Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {merchandise.map(product => (
-          <div key={product.name} className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-all">
+          <div
+            key={product.name}
+            onClick={() => setSelectedProduct(product)}
+            className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-all cursor-pointer"
+          >
             <div className="relative aspect-square overflow-hidden">
               <Image src={product.image} alt={product.name} fittingType="fill" className="w-full h-full" />
               <div className="absolute inset-0 bg-gradient-to-t from-card/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -34,7 +41,10 @@ export default function Store() {
                   {product.tag}
                 </span>
               )}
-              <button className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-teal/20 transition-colors">
+              <button
+                onClick={(e) => { e.stopPropagation(); }}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-teal/20 transition-colors"
+              >
                 <Heart className="w-4 h-4 text-white" />
               </button>
             </div>
@@ -43,8 +53,11 @@ export default function Store() {
               <h3 className="font-bold text-white text-sm mt-1 mb-2 leading-snug">{product.name}</h3>
               <div className="flex items-center justify-between">
                 <span className="text-lg font-bold text-teal">{product.price}</span>
-                <button className="text-xs font-bold tracking-wider uppercase text-white bg-teal px-4 py-2 rounded-lg hover:bg-teal/90 transition-colors">
-                  Add to Cart
+                <button
+                  onClick={(e) => { e.stopPropagation(); setSelectedProduct(product); }}
+                  className="text-xs font-bold tracking-wider uppercase text-white bg-teal px-4 py-2 rounded-lg hover:bg-teal/90 transition-colors"
+                >
+                  View Details
                 </button>
               </div>
             </div>
@@ -74,6 +87,8 @@ export default function Store() {
           </div>
         </div>
       </div>
+
+      <ProductDetailModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
     </div>
   );
 }
