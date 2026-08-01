@@ -56,7 +56,7 @@ export default function Coaches() {
       <div className="mt-12">
         <h3 className="font-display text-2xl text-white mb-5">Coming Soon</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {['Nick Cannon', 'Hovik', 'Gisela', 'More to Come'].map(name => (
+          {['Nick Cannon', 'Hovik', 'More to Come'].map(name => (
             <div key={name} className="bg-muted/10 border border-dashed border-border rounded-xl p-6 text-center">
               <div className="w-14 h-14 rounded-full bg-muted/20 mx-auto mb-3 flex items-center justify-center">
                 <Award className="w-6 h-6 text-zinc-700" />

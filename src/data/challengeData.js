@@ -30,6 +30,24 @@ export const coaches = [
     image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/822cea634_2026-05-2815_13_33553-0700.jpg',
     specialties: ['Strength Training', 'HIIT', 'Athletic Performance', 'Body Transformation'],
   },
+  {
+    id: 'airess',
+    name: 'Airess',
+    role: 'High Frequency Sculpt In Coach',
+    handle: '@airess',
+    bio: 'A passionate movement and mobility specialist bringing energy and precision to every session. Airess focuses on sculpting, flexibility, and functional strength, helping members build a strong, balanced, and confident physique.',
+    image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/83b399158_Photo_51.jpg',
+    specialties: ['Sculpt & Tone', 'Mobility', 'Core Strength', 'Functional Training'],
+  },
+  {
+    id: 'gisela',
+    name: 'Gisela',
+    role: 'High Frequency Sculpt In Coach',
+    handle: '@gisela',
+    bio: 'A dynamic fitness coach with a background in performance athletics. Gisela brings a powerful, results-driven approach to sculpting and conditioning, pushing members to unlock their full potential in every workout.',
+    image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/4ded2dc5d_Photo_2151.jpg',
+    specialties: ['Sculpt & Shape', 'Conditioning', 'Lower Body', 'Endurance'],
+  },
 ];
 
 export const equipment = [
