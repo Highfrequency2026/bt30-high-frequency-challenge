@@ -174,7 +174,7 @@ export default function Progress() {
                 type="file"
                 accept="image/*"
                 data-testid={`photo-upload-${slot.toLowerCase().replace(/\s+/g, '-')}`}
-                className="sr-only"
+                className={photos[slot] ? "sr-only" : "absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"}
                 onChange={(e) => handlePhotoUpload(slot, e.target.files?.[0])}
               />
               {photos[slot] ? (
@@ -183,7 +183,7 @@ export default function Progress() {
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
                     <button
                       onClick={() => fileRefs.current[slot]?.click()}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity bg-teal text-white font-bold text-[10px] tracking-wider uppercase px-4 py-2 rounded-lg"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity bg-teal text-white font-bold text-[10px] tracking-wider uppercase px-4 py-2 rounded-lg relative z-30"
                     >
                       Replace
                     </button>
@@ -191,18 +191,14 @@ export default function Progress() {
                   <span className="absolute bottom-2 left-2 text-[10px] tracking-widest uppercase text-white font-bold bg-black/60 px-2 py-1 rounded">{slot}</span>
                 </div>
               ) : (
-                <button
-                  onClick={() => fileRefs.current[slot]?.click()}
-                  disabled={uploadingSlot === slot}
-                  className="w-full h-full bg-muted/20 border border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 hover:border-teal/40 transition-colors"
-                >
+                <div className="w-full h-full bg-muted/20 border border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 hover:border-teal/40 transition-colors pointer-events-none">
                   {uploadingSlot === slot ? (
                     <Loader2 className="w-6 h-6 text-teal animate-spin" />
                   ) : (
                     <Camera className="w-6 h-6 text-zinc-700" />
                   )}
                   <span className="text-[10px] tracking-widest uppercase text-zinc-600 font-bold">{slot}</span>
-                </button>
+                </div>
               )}
             </div>
           ))}
