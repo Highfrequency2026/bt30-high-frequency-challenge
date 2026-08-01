@@ -7,14 +7,14 @@ import { programs } from '@/data/challengeData';
 export default function Programs() {
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 relative">
-      {/* Branding logo — extra large, top-right corner */}
+      {/* Branding logo — top-right corner */}
       <img
         src="https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/12a4b6940_ChatGPTImageAug1202608_03_36AM.png"
         alt="BT — Bre Tiesi × High Frequency"
-        className="absolute top-2 right-2 md:top-4 md:right-6 z-30 w-56 h-72 md:w-80 md:h-[30rem] lg:w-96 lg:h-[36rem] object-contain object-top pointer-events-none"
+        className="absolute top-4 right-4 md:top-6 md:right-8 z-30 w-28 h-36 md:w-36 md:h-44 lg:w-40 lg:h-48 object-contain object-top pointer-events-none"
         style={{ mixBlendMode: 'screen', filter: 'brightness(1.12) contrast(1.15) hue-rotate(-22deg) saturate(1.4) drop-shadow(0 4px 20px rgba(0,0,0,0.6))' }}
       />
-      <div className="mb-10">
+      <div className="mb-10 pr-32 md:pr-44">
         <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">High Frequency</span>
         <h1 className="font-display text-4xl md:text-5xl text-white mt-2">Programs</h1>
         <p className="text-zinc-400 text-sm mt-2 max-w-xl">Transform your body and mind with programs designed by celebrity trainer Mike T and the High Frequency team.</p>
