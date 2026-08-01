@@ -368,13 +368,24 @@ export const nutritionCategories = [
   { name: 'Hydration', items: ['Water (1 gallon/day)', 'Green Tea', 'Coconut Water', 'Electrolyte Drink'] },
 ];
 
+export const dietaryFilters = ['All', 'Vegan', 'Keto', 'Vegetarian', 'Gluten-Free'];
+
 export const sampleMeals = [
-  { time: 'Breakfast', name: 'Protein Oatmeal', desc: 'Oats, whey protein, berries, almond butter', calories: '420 cal', protein: '35g' },
-  { time: 'Mid-Morning', name: 'Greek Yogurt Parfait', desc: 'Greek yogurt, granola, honey, berries', calories: '280 cal', protein: '22g' },
-  { time: 'Lunch', name: 'Grilled Chicken Bowl', desc: 'Chicken, quinoa, roasted vegetables, avocado', calories: '550 cal', protein: '45g' },
-  { time: 'Afternoon', name: 'Protein Shake', desc: 'Whey protein, banana, spinach, almond milk', calories: '250 cal', protein: '30g' },
-  { time: 'Dinner', name: 'Salmon & Sweet Potato', desc: 'Baked salmon, sweet potato, asparagus', calories: '520 cal', protein: '38g' },
-  { time: 'Evening', name: 'Cottage Cheese', desc: 'Cottage cheese, almonds, cinnamon', calories: '200 cal', protein: '25g' },
+  { time: 'Breakfast', name: 'Protein Oatmeal', desc: 'Oats, whey protein, berries, almond butter', calories: 420, protein: '35g', carbs: '45g', fat: '12g', tags: ['Vegetarian'] },
+  { time: 'Breakfast', name: 'Avocado Toast', desc: 'Whole grain toast, avocado, hemp seeds, tomato', calories: 380, protein: '12g', carbs: '38g', fat: '20g', tags: ['Vegan', 'Vegetarian'] },
+  { time: 'Breakfast', name: 'Keto Scramble', desc: 'Eggs, spinach, feta, avocado, olive oil', calories: 450, protein: '28g', carbs: '8g', fat: '34g', tags: ['Keto', 'Vegetarian', 'Gluten-Free'] },
+  { time: 'Mid-Morning', name: 'Greek Yogurt Parfait', desc: 'Greek yogurt, granola, honey, berries', calories: 280, protein: '22g', carbs: '32g', fat: '6g', tags: ['Vegetarian', 'Gluten-Free'] },
+  { time: 'Mid-Morning', name: 'Chia Seed Pudding', desc: 'Chia seeds, almond milk, vanilla, berries', calories: 220, protein: '8g', carbs: '24g', fat: '11g', tags: ['Vegan', 'Vegetarian', 'Gluten-Free'] },
+  { time: 'Lunch', name: 'Grilled Chicken Bowl', desc: 'Chicken, quinoa, roasted vegetables, avocado', calories: 550, protein: '45g', carbs: '48g', fat: '16g', tags: ['Gluten-Free'] },
+  { time: 'Lunch', name: 'Keto Salmon Salad', desc: 'Salmon, mixed greens, olive oil, avocado, walnuts', calories: 480, protein: '36g', carbs: '6g', fat: '34g', tags: ['Keto', 'Gluten-Free'] },
+  { time: 'Lunch', name: 'Vegan Buddha Bowl', desc: 'Chickpeas, quinoa, kale, tahini, roasted veggies', calories: 420, protein: '18g', carbs: '52g', fat: '14g', tags: ['Vegan', 'Vegetarian', 'Gluten-Free'] },
+  { time: 'Afternoon', name: 'Protein Shake', desc: 'Whey protein, banana, spinach, almond milk', calories: 250, protein: '30g', carbs: '22g', fat: '4g', tags: ['Vegetarian', 'Gluten-Free'] },
+  { time: 'Afternoon', name: 'Vegan Green Smoothie', desc: 'Pea protein, spinach, avocado, flax seeds', calories: 230, protein: '22g', carbs: '18g', fat: '8g', tags: ['Vegan', 'Vegetarian', 'Gluten-Free'] },
+  { time: 'Dinner', name: 'Salmon & Sweet Potato', desc: 'Baked salmon, sweet potato, asparagus', calories: 520, protein: '38g', carbs: '42g', fat: '16g', tags: ['Gluten-Free'] },
+  { time: 'Dinner', name: 'Keto Ribeye & Greens', desc: 'Grilled ribeye, sautéed greens, garlic butter', calories: 580, protein: '42g', carbs: '5g', fat: '44g', tags: ['Keto', 'Gluten-Free'] },
+  { time: 'Dinner', name: 'Vegan Lentil Curry', desc: 'Red lentils, coconut milk, curry spices, spinach', calories: 440, protein: '20g', carbs: '58g', fat: '12g', tags: ['Vegan', 'Vegetarian', 'Gluten-Free'] },
+  { time: 'Evening', name: 'Cottage Cheese', desc: 'Cottage cheese, almonds, cinnamon', calories: 200, protein: '25g', carbs: '10g', fat: '6g', tags: ['Vegetarian', 'Gluten-Free'] },
+  { time: 'Evening', name: 'Keto Cheese & Nuts', desc: 'Mixed cheese, macadamia nuts, olives', calories: 300, protein: '14g', carbs: '4g', fat: '26g', tags: ['Keto', 'Vegetarian', 'Gluten-Free'] },
 ];
 
 export const mindsetContent = {
