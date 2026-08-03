@@ -1,17 +1,21 @@
 import React from 'react';
-import { Calendar, Users } from 'lucide-react';
+import { Calendar, Users, ArrowRight, Loader2 } from 'lucide-react';
+import { useCheckout } from '@/hooks/useCheckout';
 
 const classPacks = [
-  { id: 'single', name: 'Single Class Drop-in', price: '$25', desc: 'One live training session', detail: 'Any live class', icon: Calendar },
-  { id: '5pack', name: '5-Class Pack', price: '$110', desc: 'Save $15', detail: 'Valid for 60 days', icon: Users, popular: true },
-  { id: '10pack', name: '10-Class Pack', price: '$200', desc: 'Save $50', detail: 'Valid for 90 days', icon: Users },
+  { id: 'class-single', name: 'Single Class Drop-in', price: '$25', desc: 'One live training session', detail: 'Any live class', icon: Calendar },
+  { id: 'class-5pack', name: '5-Class Pack', price: '$110', desc: 'Save $15', detail: 'Valid for 60 days', icon: Users, popular: true },
+  { id: 'class-10pack', name: '10-Class Pack', price: '$200', desc: 'Save $50', detail: 'Valid for 90 days', icon: Users },
 ];
 
 export default function ClassPackages() {
+  const { startCheckout, loadingId } = useCheckout();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
       {classPacks.map((pack) => {
         const Icon = pack.icon;
+        const isLoading = loadingId === pack.id;
         return (
           <div key={pack.id} className="relative rounded-2xl border border-border bg-card p-7 hover:border-teal/30 transition-all">
             {pack.popular && (
@@ -26,8 +30,16 @@ export default function ClassPackages() {
               <span className="font-display text-4xl text-white">{pack.price}</span>
             </div>
             <p className="text-xs text-zinc-400 mb-6">{pack.detail}</p>
-            <button className="w-full inline-flex items-center justify-center gap-2 border border-platinum/30 text-platinum font-bold text-sm tracking-wider uppercase px-6 py-3 rounded-lg hover:bg-white/5 transition-all">
-              Book Class
+            <button
+              onClick={() => startCheckout(pack.id)}
+              disabled={loadingId !== null}
+              className="w-full inline-flex items-center justify-center gap-2 border border-platinum/30 text-platinum font-bold text-sm tracking-wider uppercase px-6 py-3 rounded-lg hover:bg-white/5 transition-all disabled:opacity-60"
+            >
+              {isLoading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</>
+              ) : (
+                <>Book Class <ArrowRight className="w-4 h-4" /></>
+              )}
             </button>
           </div>
         );

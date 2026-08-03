@@ -7,6 +7,15 @@
         "admin",
         "user"
       ]
+    },
+    "plan": {
+      "type": "string",
+      "description": "The active membership plan (product id) granted after a successful payment, or null if none",
+      "enum": [
+        "membership-monthly",
+        "membership-annual",
+        "membership-elite"
+      ]
     }
   },
   "required": [

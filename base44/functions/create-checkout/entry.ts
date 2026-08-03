@@ -71,31 +71,43 @@ Deno.serve(async (req: Request) => {
     // ===== APP-SPECIFIC =====
     // Resolve what is being bought AND its price SERVER-SIDE. NEVER trust a price sent by the
     // client — a buyer can tamper the request body and pay any amount. The client sends only a
-    // product identifier; look up the authoritative price here (a Product entity, a config map,
-    // etc.). For a subscription, set `subscriptionInfo` (frequency/interval/billingCycles).
+    // product identifier; look up the authoritative price here.
     const productId = String(body.productId ?? "");
-    // Quantity is buyer-controlled, so VALIDATE it server-side. Check the RAW value is a positive
-    // integer BEFORE using it — do NOT Math.trunc first, or a fractional POST (e.g. 1.9) silently
-    // passes as 1 and charges a quantity the UI never allowed. For a plan / fixed-entitlement product,
-    // hard-code `1` and ignore the body; for a genuine multi-unit product, also enforce YOUR own max.
+    // Quantity is buyer-controlled, so VALIDATE it server-side. All membership/class/PT products
+    // are fixed-entitlement (quantity 1).
     const quantity = Number(body.quantity ?? 1);
     if (!Number.isInteger(quantity) || quantity < 1) {
       return new Response(JSON.stringify({ error: "Invalid quantity" }), { status: 400 });
     }
-    // Example — replace with your real trusted product source:
-    //   const product = (await base44.asServiceRole.entities.Product.filter({ id: productId }))[0];
-    //   if (!product) return new Response(JSON.stringify({ error: "Unknown product" }), { status: 400 });
-    //   const productName = product.name; const price = String(product.price); const currency = product.currency ?? "USD";
-    const productName = "Purchase"; // TODO: from your trusted product source
-    const price = "0.00";           // TODO: authoritative per-unit price (major units), resolved server-side
-    const currency = "USD";
+
+    // Authoritative product catalog — prices resolved server-side, never trusted from the client.
+    // Membership products are recurring subscriptions; class packs and personal training are one-time.
+    const PRODUCTS: Record<string, { name: string; price: string; currency: string; subscription?: any }> = {
+      "membership-monthly": { name: "High Frequency — Monthly All-Access", price: "49.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "MONTH" }, title: "Monthly All-Access", description: "Full access to High Frequency programs, training, and community. Billed monthly." } },
+      "membership-annual": { name: "High Frequency — Annual All-Access", price: "499.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "YEAR" }, title: "Annual All-Access", description: "Full access with priority and member perks. Billed annually." } },
+      "membership-elite": { name: "High Frequency — Elite Annual", price: "899.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "YEAR" }, title: "Elite Annual", description: "The full transformation experience with personal training. Billed annually." } },
+      "class-single": { name: "Single Class Drop-in", price: "25.00", currency: "USD" },
+      "class-5pack": { name: "5-Class Pack", price: "110.00", currency: "USD" },
+      "class-10pack": { name: "10-Class Pack", price: "200.00", currency: "USD" },
+      "pt-single": { name: "1-on-1 Personal Training — Single Session", price: "120.00", currency: "USD" },
+      "pt-4pack": { name: "1-on-1 Personal Training — 4 Sessions", price: "440.00", currency: "USD" },
+      "pt-8pack": { name: "1-on-1 Personal Training — 8 Sessions", price: "800.00", currency: "USD" },
+    };
+
+    const product = PRODUCTS[productId];
+    if (!product) {
+      return new Response(JSON.stringify({ error: "Unknown product" }), { status: 400 });
+    }
+    const productName = product.name;
+    const price = product.price;
+    const currency = product.currency;
     // For a SUBSCRIPTION set this to Wix's subscriptionInfo; leave null for a one-time payment.
-    const subscriptionInfo = null;
+    const subscriptionInfo = product.subscription ?? null;
     // Where Wix returns the buyer. Both MUST be real, PUBLICLY reachable routes in this app: the
     // returning buyer is often anonymous, so a missing or login-gated route strands a paid customer.
     // Match your router exactly — `/ThankYou`, not `/thank-you`.
     const thankYouPath = "/ThankYou";
-    const postFlowPath = "/";
+    const postFlowPath = "/membership";
     // ===== END APP-SPECIFIC =====
 
     const total = parseFloat(price) * quantity;
