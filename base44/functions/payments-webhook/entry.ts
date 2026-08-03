@@ -153,6 +153,51 @@ async function handleOrderApproved(db: any, eventData: any): Promise<Response> {
       throw err;
     }
   }
+  // Gym membership fulfillment: activate the member, generate member number + QR credential.
+  if (purchase.appUserId && purchase.productId && purchase.productId.startsWith("gym-")) {
+    try {
+      const members = await db.entities.Members.filter({ user_id: purchase.appUserId });
+      const member = members?.[0];
+      if (member) {
+        const now = new Date().toISOString();
+        const memberNumber = member.member_number || `HF-${Date.now().toString(36).toUpperCase()}`;
+        await db.entities.Members.update(member.id, {
+          membership_status: "active",
+          access_status: "approved",
+          membership_start_date: now,
+          stripe_subscription_id: subscriptionId ?? member.stripe_subscription_id ?? null,
+          member_number: memberNumber,
+        });
+        // Create QR access credential (idempotent: check existing first)
+        const existingCreds = await db.entities.AccessCredentials.filter({ member_id: member.id, credential_type: "qr_pass" });
+        if (!existingCreds?.length) {
+          await db.entities.AccessCredentials.create({
+            member_id: member.id,
+            credential_type: "qr_pass",
+            credential_token: memberNumber,
+            active: true,
+            issued_at: now,
+          });
+        }
+        // Record subscription (idempotent)
+        if (subscriptionId) {
+          const existingSubs = await db.entities.Subscriptions.filter({ stripe_subscription_id: subscriptionId });
+          if (!existingSubs?.length) {
+            await db.entities.Subscriptions.create({
+              member_id: member.id,
+              stripe_subscription_id: subscriptionId,
+              stripe_price_id: purchase.productId,
+              status: "active",
+              current_period_start: now,
+            });
+          }
+        }
+      }
+    } catch (err) {
+      console.error("payments-webhook: failed to fulfill gym membership", { purchaseId: purchase.id, err });
+      throw err;
+    }
+  }
   // ===== END APP-SPECIFIC =====
 
   // Mark paid LAST, so "paid" always implies the grant above completed. The idempotency
@@ -207,6 +252,32 @@ async function handleSubscriptionEnded(db: any, eventData: any): Promise<Respons
       await db.entities.User.update(purchase.appUserId, { plan: null });
     } catch (err) {
       console.error("payments-webhook: failed to revoke membership plan", { purchaseId: purchase.id, err });
+      throw err;
+    }
+  }
+  // Gym membership revocation: cancel member, disable QR credential.
+  if (purchase.appUserId && purchase.productId && purchase.productId.startsWith("gym-")) {
+    try {
+      const members = await db.entities.Members.filter({ user_id: purchase.appUserId });
+      const member = members?.[0];
+      if (member) {
+        await db.entities.Members.update(member.id, {
+          membership_status: "canceled",
+          access_status: "denied",
+        });
+        const creds = await db.entities.AccessCredentials.filter({ member_id: member.id, credential_type: "qr_pass", active: true });
+        for (const cred of (creds ?? [])) {
+          await db.entities.AccessCredentials.update(cred.id, { active: false });
+        }
+        if (subscriptionId) {
+          const subs = await db.entities.Subscriptions.filter({ stripe_subscription_id: subscriptionId });
+          if (subs?.[0]) {
+            await db.entities.Subscriptions.update(subs[0].id, { status: "canceled" });
+          }
+        }
+      }
+    } catch (err) {
+      console.error("payments-webhook: failed to revoke gym membership", { purchaseId: purchase.id, err });
       throw err;
     }
   }

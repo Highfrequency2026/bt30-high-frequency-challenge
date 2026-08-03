@@ -84,7 +84,7 @@ export default function MemberPhoto() {
         photo_consent: true,
       });
       toast({ title: 'Photo saved', description: 'Continuing to payment.' });
-      navigate('/membership');
+      navigate('/checkout');
     } catch (err) {
       toast({ title: 'Save failed', description: err.message || 'Please try again.', variant: 'destructive' });
     } finally {

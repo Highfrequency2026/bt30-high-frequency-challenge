@@ -18,6 +18,11 @@ import MemberRegister from './pages/MemberRegister';
 import MemberProfileSetup from './pages/MemberProfileSetup';
 import MembershipAgreements from './pages/MembershipAgreements';
 import MemberPhoto from './pages/MemberPhoto';
+import Checkout from './pages/Checkout';
+import MembershipActivated from './pages/MembershipActivated';
+import MemberDashboard from './pages/MemberDashboard';
+import StaffCheckIn from './pages/StaffCheckIn';
+import AdminMembershipDashboard from './pages/AdminMembershipDashboard';
 import Programs from './pages/Programs';
 import ProgramDetail from './pages/ProgramDetail';
 import WorkoutDetail from './pages/WorkoutDetail';
@@ -69,6 +74,11 @@ const AuthenticatedApp = () => {
         <Route path="/profile-setup" element={<MemberProfileSetup />} />
         <Route path="/agreements" element={<MembershipAgreements />} />
         <Route path="/member-photo" element={<MemberPhoto />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/activated" element={<MembershipActivated />} />
+        <Route path="/dashboard" element={<MemberDashboard />} />
+        <Route path="/staff-checkin" element={<StaffCheckIn />} />
+        <Route path="/admin" element={<AdminMembershipDashboard />} />
         <Route path="/programs" element={<Programs />} />
         <Route path="/programs/:programId" element={<ProgramDetail />} />
         <Route path="/workout/:day" element={<WorkoutDetail />} />
