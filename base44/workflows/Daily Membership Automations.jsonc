@@ -1,0 +1,44 @@
+{
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "daily_membership_automations",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_automations": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "membership-automations"
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Run membership automations",
+            "description": "Past-due, waivers, photos"
+          }
+        }
+      }
+    ]
+  },
+  "name": "Daily Membership Automations",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 9 * * *",
+      "one_time_date": null,
+      "timezone": "America/Los_Angeles",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "description": "Daily check at 9am: handles past-due payment grace periods (suspend after 7 days), sends waiver reminders (24h after registration), and photo reminders (48h after activation)"
+}
