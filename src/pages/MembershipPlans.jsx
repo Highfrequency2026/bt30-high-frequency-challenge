@@ -88,7 +88,7 @@ export default function MembershipPlans() {
       {selectedId && (
         <div className="mt-10 flex justify-center animate-fade-up">
           <Link
-            to="/join"
+            to="/member-signup"
             className="inline-flex items-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-10 py-4 rounded-lg hover:bg-teal/90 transition-all"
           >
             Continue to Registration <ArrowRight className="w-4 h-4" />

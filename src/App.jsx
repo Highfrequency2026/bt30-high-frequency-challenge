@@ -14,6 +14,10 @@ import Membership from './pages/Membership';
 import ThankYou from './pages/ThankYou';
 import Join from './pages/Join';
 import MembershipPlans from './pages/MembershipPlans';
+import MemberRegister from './pages/MemberRegister';
+import MemberProfileSetup from './pages/MemberProfileSetup';
+import MembershipAgreements from './pages/MembershipAgreements';
+import MemberPhoto from './pages/MemberPhoto';
 import Programs from './pages/Programs';
 import ProgramDetail from './pages/ProgramDetail';
 import WorkoutDetail from './pages/WorkoutDetail';
@@ -61,6 +65,10 @@ const AuthenticatedApp = () => {
         <Route path="/ThankYou" element={<ThankYou />} />
         <Route path="/join" element={<Join />} />
         <Route path="/plans" element={<MembershipPlans />} />
+        <Route path="/member-signup" element={<MemberRegister />} />
+        <Route path="/profile-setup" element={<MemberProfileSetup />} />
+        <Route path="/agreements" element={<MembershipAgreements />} />
+        <Route path="/member-photo" element={<MemberPhoto />} />
         <Route path="/programs" element={<Programs />} />
         <Route path="/programs/:programId" element={<ProgramDetail />} />
         <Route path="/workout/:day" element={<WorkoutDetail />} />
