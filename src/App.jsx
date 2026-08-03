@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
 import AppLayout from '@/components/layout/AppLayout';
 import Home from './pages/Home';
+import Landing from './pages/Landing';
 import Programs from './pages/Programs';
 import ProgramDetail from './pages/ProgramDetail';
 import WorkoutDetail from './pages/WorkoutDetail';
@@ -51,6 +52,7 @@ const AuthenticatedApp = () => {
       {/* Add your page Route elements here */}
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/landing" element={<Landing />} />
         <Route path="/programs" element={<Programs />} />
         <Route path="/programs/:programId" element={<ProgramDetail />} />
         <Route path="/workout/:day" element={<WorkoutDetail />} />
