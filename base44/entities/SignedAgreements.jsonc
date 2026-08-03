@@ -1,0 +1,54 @@
+{
+  "name": "SignedAgreements",
+  "type": "object",
+  "properties": {
+    "member_id": {
+      "type": "string"
+    },
+    "agreement_type": {
+      "type": "string",
+      "enum": [
+        "membership_agreement",
+        "liability_waiver",
+        "gym_rules",
+        "recurring_payment_auth",
+        "cancellation_policy",
+        "photo_notice",
+        "privacy_notice",
+        "esign_consent"
+      ]
+    },
+    "agreement_version": {
+      "type": "string"
+    },
+    "document_url": {
+      "type": "string",
+      "description": "Immutable URL or stored text of the exact agreement version accepted"
+    },
+    "typed_name": {
+      "type": "string"
+    },
+    "signature_url": {
+      "type": "string",
+      "description": "URL to stored signature image, or typed signature text"
+    },
+    "accepted": {
+      "type": "boolean",
+      "default": false
+    },
+    "signed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "device_info": {
+      "type": "string",
+      "description": "IP address or device information when available"
+    }
+  },
+  "required": [
+    "member_id",
+    "agreement_type",
+    "agreement_version",
+    "accepted"
+  ]
+}

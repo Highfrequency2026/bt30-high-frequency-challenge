@@ -1,0 +1,130 @@
+{
+  "name": "Members",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Base44 app user id"
+    },
+    "member_number": {
+      "type": "string",
+      "description": "Unique member number generated on activation"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "string",
+      "format": "date"
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "zip_code": {
+      "type": "string"
+    },
+    "emergency_contact_name": {
+      "type": "string"
+    },
+    "emergency_contact_phone": {
+      "type": "string"
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "photo_consent": {
+      "type": "boolean",
+      "default": false
+    },
+    "membership_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "past_due",
+        "suspended",
+        "frozen",
+        "canceled",
+        "expired"
+      ],
+      "default": "pending"
+    },
+    "access_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "denied"
+      ],
+      "default": "pending"
+    },
+    "waiver_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "signed"
+      ],
+      "default": "pending"
+    },
+    "selected_plan_id": {
+      "type": "string"
+    },
+    "preferred_name": {
+      "type": "string"
+    },
+    "fitness_goals": {
+      "type": "string"
+    },
+    "health_notes": {
+      "type": "string"
+    },
+    "referral_source": {
+      "type": "string"
+    },
+    "preferred_communication": {
+      "type": "string",
+      "enum": [
+        "email",
+        "sms",
+        "phone"
+      ]
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "Base44 Payments customer identifier"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "description": "Base44 Payments subscription identifier"
+    },
+    "membership_start_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "next_billing_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "email",
+    "membership_status"
+  ]
+}

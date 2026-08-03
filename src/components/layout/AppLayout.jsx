@@ -1,10 +1,11 @@
 import React from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar } from 'lucide-react';
+import { Outlet, NavLink, useLocation, Link } from 'react-router-dom';
+import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus } from 'lucide-react';
 import HFLogo from '@/components/HFLogo';
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
+  { to: '/join', label: 'Join', icon: UserPlus },
   { to: '/programs', label: 'Programs', icon: Dumbbell },
   { to: '/nutrition', label: 'Nutrition', icon: Apple },
   { to: '/mindset', label: 'Mindset', icon: Brain },
@@ -56,9 +57,9 @@ export default function AppLayout() {
           <div className="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-lg p-4">
             <p className="text-[10px] tracking-widest uppercase text-primary font-bold mb-1">High Frequency</p>
             <p className="text-xs text-muted-foreground mb-3">Unlock all programs, nutrition, and coaching.</p>
-            <button className="w-full bg-primary text-primary-foreground text-xs font-bold tracking-wider uppercase py-2.5 rounded-md hover:bg-primary/90 transition-colors">
+            <Link to="/join" className="w-full block text-center bg-primary text-primary-foreground text-xs font-bold tracking-wider uppercase py-2.5 rounded-md hover:bg-primary/90 transition-colors">
               Go Premium
-            </button>
+            </Link>
           </div>
         </div>
       </aside>

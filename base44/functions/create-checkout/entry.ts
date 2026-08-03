@@ -92,6 +92,12 @@ Deno.serve(async (req: Request) => {
       "pt-single": { name: "1-on-1 Personal Training — Single Session", price: "120.00", currency: "USD" },
       "pt-4pack": { name: "1-on-1 Personal Training — 4 Sessions", price: "440.00", currency: "USD" },
       "pt-8pack": { name: "1-on-1 Personal Training — 8 Sessions", price: "800.00", currency: "USD" },
+      "gym-monthly": { name: "Monthly Gym Membership", price: "49.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "MONTH" }, title: "Monthly Gym Membership", description: "Full gym access. Billed monthly. Cancel anytime." } },
+      "gym-premium": { name: "Premium Membership", price: "99.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "MONTH" }, title: "Premium Membership", description: "Full gym access plus classes and amenities. Billed monthly." } },
+      "gym-pt": { name: "Personal Training Membership", price: "199.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "MONTH" }, title: "Personal Training Membership", description: "Full access plus monthly personal training sessions. Billed monthly." } },
+      "gym-founding": { name: "Founding Member", price: "79.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "MONTH" }, title: "Founding Member", description: "Special founding member rate. Billed monthly." } },
+      "gym-day-pass": { name: "Day Pass", price: "20.00", currency: "USD" },
+      "gym-trial": { name: "Trial Membership", price: "49.00", currency: "USD", subscription: { subscriptionSettings: { frequency: "MONTH", freeTrialPeriod: { frequency: "DAY", interval: 7 } }, title: "Trial Membership", description: "7-day free trial, then monthly billing. Cancel anytime." } },
     };
 
     const product = PRODUCTS[productId];

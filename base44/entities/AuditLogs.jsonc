@@ -1,0 +1,28 @@
+{
+  "name": "AuditLogs",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string"
+    },
+    "member_id": {
+      "type": "string"
+    },
+    "performed_by": {
+      "type": "string",
+      "description": "User id of the admin or staff who performed the action"
+    },
+    "previous_value": {
+      "type": "string"
+    },
+    "new_value": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "action"
+  ]
+}

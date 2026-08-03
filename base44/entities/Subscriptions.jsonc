@@ -1,0 +1,60 @@
+{
+  "name": "Subscriptions",
+  "type": "object",
+  "properties": {
+    "member_id": {
+      "type": "string"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "Base44 Payments customer id"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "description": "Base44 Payments subscription id"
+    },
+    "stripe_price_id": {
+      "type": "string",
+      "description": "Base44 Payments price/product id"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "past_due",
+        "canceled",
+        "expired",
+        "trialing"
+      ],
+      "default": "active"
+    },
+    "current_period_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_period_end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cancel_at_period_end": {
+      "type": "boolean",
+      "default": false
+    },
+    "last_payment_status": {
+      "type": "string",
+      "enum": [
+        "paid",
+        "failed",
+        "pending"
+      ]
+    },
+    "last_payment_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "member_id",
+    "status"
+  ]
+}

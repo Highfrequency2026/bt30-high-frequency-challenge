@@ -1,0 +1,47 @@
+{
+  "name": "CheckIns",
+  "type": "object",
+  "properties": {
+    "member_id": {
+      "type": "string"
+    },
+    "check_in_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "location": {
+      "type": "string"
+    },
+    "entry_method": {
+      "type": "string",
+      "enum": [
+        "qr_scan",
+        "manual",
+        "search"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "denied",
+        "review"
+      ]
+    },
+    "verified_by": {
+      "type": "string",
+      "description": "Staff user id"
+    },
+    "denial_reason": {
+      "type": "string"
+    },
+    "internal_note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "member_id",
+    "check_in_time",
+    "status"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "name": "MembershipPlans",
+  "type": "object",
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "description": "Unique plan identifier (e.g. gym-monthly)"
+    },
+    "plan_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "monthly_price": {
+      "type": "string",
+      "description": "Monthly price in major units (e.g. 49.00)"
+    },
+    "enrollment_fee": {
+      "type": "string",
+      "description": "One-time enrollment fee in major units"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Maps to the create-checkout product catalog key for Base44 Payments"
+    },
+    "billing_interval": {
+      "type": "string",
+      "enum": [
+        "month",
+        "year",
+        "one_time"
+      ]
+    },
+    "commitment_months": {
+      "type": "number",
+      "description": "Minimum commitment period in months; 0 for no commitment",
+      "default": 0
+    },
+    "access_level": {
+      "type": "string",
+      "enum": [
+        "full",
+        "premium",
+        "pt",
+        "day",
+        "trial"
+      ]
+    },
+    "included_benefits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cancellation_terms": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "display_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "plan_id",
+    "plan_name",
+    "monthly_price",
+    "product_id",
+    "billing_interval",
+    "active"
+  ]
+}
