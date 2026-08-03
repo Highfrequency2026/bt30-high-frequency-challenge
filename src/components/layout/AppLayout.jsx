@@ -1,10 +1,12 @@
 import React from 'react';
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom';
-import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus } from 'lucide-react';
+import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus, LayoutDashboard, ScanLine, Shield } from 'lucide-react';
 import HFLogo from '@/components/HFLogo';
+import { useAuth } from '@/lib/AuthContext';
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
+  { to: '/dashboard', label: 'My Membership', icon: LayoutDashboard },
   { to: '/join', label: 'Join', icon: UserPlus },
   { to: '/programs', label: 'Programs', icon: Dumbbell },
   { to: '/nutrition', label: 'Nutrition', icon: Apple },
@@ -18,9 +20,17 @@ const navItems = [
   { to: '/store', label: 'Store', icon: ShoppingBag },
 ];
 
+const adminItems = [
+  { to: '/staff-checkin', label: 'Check-In', icon: ScanLine },
+  { to: '/admin', label: 'Admin', icon: Shield },
+];
+
 export default function AppLayout() {
   const location = useLocation();
+  const { user } = useAuth();
   const isHome = location.pathname === '/';
+  const isAdmin = user?.role === 'admin';
+  const allItems = [...navItems, ...(isAdmin ? adminItems : [])];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -31,8 +41,8 @@ export default function AppLayout() {
             <HFLogo />
           </NavLink>
         </div>
-        <nav className="flex-1 p-4 space-y-1">
-          {navItems.map(item => {
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+          {allItems.map(item => {
             const Icon = item.icon;
             return (
               <NavLink
@@ -72,7 +82,7 @@ export default function AppLayout() {
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-lg border-t border-border z-40">
         <div className="flex overflow-x-auto no-scrollbar items-center gap-1 px-2">
-          {navItems.map(item => {
+          {allItems.map(item => {
             const Icon = item.icon;
             return (
               <NavLink
