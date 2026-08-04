@@ -7,7 +7,8 @@ import { BODY_AREAS, EQUIPMENT_OPTIONS, EXPERIENCE_LEVELS, MOVEMENT_TYPES, WORKO
 export default function ExerciseLibrary() {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [muscleGroup, setMuscleGroup] = useState(null);
   const [equipment, setEquipment] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
@@ -28,8 +29,8 @@ export default function ExerciseLibrary() {
   }, []);
 
   const filtered = exercises.filter(ex => {
-    if (search) {
-      const q = search.toLowerCase();
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
       const haystack = [
         ex.name,
         ex.description,
@@ -87,15 +88,35 @@ export default function ExerciseLibrary() {
       </div>
 
       {/* Search */}
-      <div className="relative mb-4">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
-        <input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Search exercises..."
-          className="w-full bg-card border border-border rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50"
-        />
-      </div>
+      <form
+        onSubmit={e => { e.preventDefault(); setSearchQuery(searchInput); }}
+        className="relative mb-4 flex gap-2"
+      >
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
+          <input
+            value={searchInput}
+            onChange={e => setSearchInput(e.target.value)}
+            placeholder="Search exercises (e.g. squat, chest, dumbbell)..."
+            className="w-full bg-card border border-border rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-teal text-white font-bold text-xs tracking-wider uppercase px-6 rounded-xl hover:bg-teal/90 transition-all"
+        >
+          Search
+        </button>
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => { setSearchInput(''); setSearchQuery(''); }}
+            className="inline-flex items-center justify-center px-3 rounded-xl border border-border text-zinc-400 hover:text-white transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
+      </form>
 
       {/* Filter Toggle */}
       <div className="flex items-center justify-between mb-4">
