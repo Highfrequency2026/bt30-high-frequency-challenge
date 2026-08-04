@@ -6,8 +6,9 @@ import { BRE_IMG, HF_LOGO, workoutDays } from '@/data/challengeData';
 import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
 export default function Home() {
-  const todayWorkout = workoutDays[0];
-  const { completedCount } = useWorkoutProgress();
+  const { completedDays, completedCount, isCompleted } = useWorkoutProgress();
+  const todayWorkout = workoutDays.find(d => !isCompleted(d.day)) || workoutDays[0];
+  const currentDay = completedCount + 1;
 
   return (
     <div className="animate-fade-in">
@@ -44,9 +45,9 @@ export default function Home() {
               <p className="text-xs text-zinc-400">30 days. 30 workouts. One transformation.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/programs/bt30" className="group inline-flex items-center justify-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-teal/90 transition-all">
+              <Link to={`/workout/${todayWorkout.day}`} className="group inline-flex items-center justify-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-teal/90 transition-all">
                 <Play className="w-4 h-4 fill-white" />
-                Start BT30™
+                {completedCount > 0 ? 'Continue BT30™' : 'Start BT30™'}
               </Link>
               <Link to="/programs" className="inline-flex items-center justify-center gap-2 border border-platinum/30 text-platinum font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-white/5 transition-all">
                 Explore Platform
@@ -70,7 +71,7 @@ export default function Home() {
             <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Today</span>
             <h2 className="font-display text-3xl md:text-4xl text-white mt-1">Your Daily Focus</h2>
           </div>
-          <span className="text-sm text-zinc-500">Day 1 of 30</span>
+          <span className="text-sm text-zinc-500">Day {currentDay} of 30</span>
         </div>
 
         {/* Today's Workout Card */}
