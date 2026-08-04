@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dumbbell, Clock, RefreshCw, Check, ChevronDown, ChevronUp, Play, AlertCircle } from 'lucide-react';
+import { Dumbbell, Clock, RefreshCw, Check, ChevronDown, ChevronUp, Play, AlertCircle, Youtube } from 'lucide-react';
 
 export default function ExerciseCard({ exercise, index, onReplace, replacing }) {
   const [expanded, setExpanded] = useState(false);
@@ -95,6 +95,27 @@ export default function ExerciseCard({ exercise, index, onReplace, replacing }) 
         </div>
       )}
 
+      {/* YouTube Thumbnail */}
+      {exercise.video_url && (
+        <a href={exercise.video_url} target="_blank" rel="noopener noreferrer" className="block relative group">
+          {exercise.thumbnail_url ? (
+            <img src={exercise.thumbnail_url} alt={`${exercise.name} tutorial`} className="w-full h-44 object-cover" />
+          ) : (
+            <div className="w-full h-24 bg-gradient-to-r from-red-600/20 to-red-900/20 flex items-center justify-center">
+              <Youtube className="w-8 h-8 text-red-500" />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Play className="w-5 h-5 text-white fill-white ml-0.5" />
+            </div>
+          </div>
+          <span className="absolute bottom-2 left-2 text-[9px] tracking-widest uppercase text-white font-bold bg-black/70 px-2 py-0.5 rounded">
+            {exercise.thumbnail_url ? 'Watch Tutorial' : 'Search YouTube'}
+          </span>
+        </a>
+      )}
+
       {/* Action buttons */}
       <div className="flex items-center gap-2 px-5 py-3 border-t border-border bg-muted/20">
         <button
@@ -105,11 +126,14 @@ export default function ExerciseCard({ exercise, index, onReplace, replacing }) 
         >
           <Check className="w-3.5 h-3.5" /> {completed ? 'Completed' : 'Mark Complete'}
         </button>
-        {exercise.video_url && (
-          <a href={exercise.video_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold tracking-wide bg-muted text-zinc-400 hover:text-zinc-200 transition-all">
-            <Play className="w-3.5 h-3.5" /> Video
-          </a>
-        )}
+        <a
+          href={exercise.video_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold tracking-wide bg-red-600/10 text-red-400 hover:bg-red-600/20 transition-all"
+        >
+          <Youtube className="w-3.5 h-3.5" /> Tutorial
+        </a>
         {onReplace && (
           <button
             onClick={() => onReplace(exercise, index)}

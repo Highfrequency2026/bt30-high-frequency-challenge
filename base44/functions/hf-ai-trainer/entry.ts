@@ -163,6 +163,76 @@ Requirements for the replacement exercise:
 Return a single replacement exercise with all fields filled out.`;
 }
 
+async function enrichWithYouTubeVideos(base44, llmResponse) {
+  const exercises = llmResponse.exercises;
+  if (!exercises || exercises.length === 0) return llmResponse;
+
+  const exerciseNames = exercises.map(e => e.name);
+
+  // Build a YouTube search URL fallback for any exercise
+  const fallbackUrl = (name) =>
+    `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' proper form tutorial')}`;
+
+  // Extract YouTube video ID from a URL for thumbnail construction
+  const extractVideoId = (url) => {
+    if (!url) return null;
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  };
+
+  try {
+    const ytResponse = await base44.asServiceRole.integrations.Core.InvokeLLM({
+      prompt: `Search YouTube for the best exercise form tutorial video for EACH exercise below. For each one, find a real, high-quality YouTube video that demonstrates proper form and technique. Return the full YouTube watch URL (https://www.youtube.com/watch?v=...) for each exercise. Only return real URLs you found in search results — do NOT fabricate URLs. If you cannot find a video for an exercise, return an empty string for its URL.
+
+Exercises:
+${exerciseNames.map((name, i) => `${i + 1}. ${name}`).join('\n')}`,
+      response_json_schema: {
+        type: "object",
+        properties: {
+          exercise_videos: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                name: { type: "string" },
+                url: { type: "string" }
+              },
+              required: ["name", "url"]
+            }
+          }
+        },
+        required: ["exercise_videos"]
+      },
+      add_context_from_internet: true,
+      model: 'gemini_3_flash'
+    });
+
+    const videoMap = {};
+    (ytResponse.exercise_videos || []).forEach(v => {
+      if (v.name) videoMap[v.name.toLowerCase().trim()] = v.url || '';
+    });
+
+    llmResponse.exercises = exercises.map(ex => {
+      const realUrl = videoMap[(ex.name || '').toLowerCase().trim()] || '';
+      const videoId = extractVideoId(realUrl);
+      return {
+        ...ex,
+        video_url: realUrl || fallbackUrl(ex.name),
+        thumbnail_url: videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : ''
+      };
+    });
+  } catch (err) {
+    console.error('YouTube video enrichment failed, using search fallbacks:', err.message);
+    llmResponse.exercises = exercises.map(ex => ({
+      ...ex,
+      video_url: fallbackUrl(ex.name),
+      thumbnail_url: ''
+    }));
+  }
+
+  return llmResponse;
+}
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -194,6 +264,9 @@ export default async function(req) {
       response_json_schema: schema,
       model: 'automatic'
     });
+
+    // Enrich exercises with YouTube tutorial videos
+    await enrichWithYouTubeVideos(base44, llmResponse);
 
     // Save to history for build_workout and find_exercise modes
     if (mode !== 'replace_exercise') {
