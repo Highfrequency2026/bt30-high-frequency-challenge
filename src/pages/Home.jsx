@@ -32,7 +32,7 @@ export default function Home() {
           <img
             src={HF_LOGO}
             alt="High Frequency — Private Fitness Club"
-            className="w-64 md:w-80 lg:w-[28rem] h-auto mb-6 object-contain"
+            className="w-80 md:w-[30rem] lg:w-[40rem] h-auto mb-8 object-contain"
             style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 50px rgba(69, 179, 179, 0.3))' }}
           />
 
