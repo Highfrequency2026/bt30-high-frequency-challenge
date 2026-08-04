@@ -4,6 +4,8 @@ import { Play, Dumbbell, Clock, TrendingUp, ChevronRight, Check } from 'lucide-r
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays, equipment, fitnessLevels } from '@/data/challengeData';
 import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
+import { useBT30Access } from '@/hooks/useBT30Access';
+import BT30PurchaseScreen from '@/components/programs/BT30PurchaseScreen';
 
 const weekLabels = ['Week One', 'Week Two', 'Week Three', 'Week Four', 'Final Week'];
 
@@ -12,8 +14,21 @@ export default function ProgramDetail() {
   const [activeWeek, setActiveWeek] = useState(1);
   const [tab, setTab] = useState('workouts');
   const { completedCount, isCompleted } = useWorkoutProgress();
+  const { hasAccess, checking } = useBT30Access();
 
   const weekDays = workoutDays.filter(d => d.week === activeWeek);
+
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="w-8 h-8 border-4 border-border border-t-teal rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!hasAccess) {
+    return <BT30PurchaseScreen />;
+  }
 
   return (
     <div className="animate-fade-in">

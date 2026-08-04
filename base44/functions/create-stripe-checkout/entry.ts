@@ -80,6 +80,10 @@ const PRODUCTS = {
   "pt-single": { name: "1-on-1 PT — Single Session", price: "120.00", currency: "usd" },
   "pt-4pack": { name: "1-on-1 PT — 4 Sessions", price: "440.00", currency: "usd" },
   "pt-8pack": { name: "1-on-1 PT — 8 Sessions", price: "800.00", currency: "usd" },
+
+  // BT30 Program (one-time digital purchase)
+  "bt30-preorder": { name: "BT30™ High Frequency Method — Pre-order", price: "89.00", currency: "usd" },
+  "bt30-program": { name: "BT30™ High Frequency Method", price: "178.00", currency: "usd" },
 };
 
 export default async function (req) {
@@ -134,11 +138,15 @@ export default async function (req) {
       },
     };
 
+    const cancelUrl = productId.startsWith("bt30-")
+      ? `${appUrl}/programs/bt30`
+      : `${appUrl}/membership`;
+
     const sessionParams = {
       mode,
       line_items: [lineItem],
       success_url: `${appUrl}/ThankYou`,
-      cancel_url: `${appUrl}/membership`,
+      cancel_url: cancelUrl,
       // Metadata travels with the session and is available in the webhook — this is how
       // we know which product and which app user to fulfill after payment.
       metadata: {

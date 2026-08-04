@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { Play, Pause, ChevronLeft, ChevronRight, Check, Clock, TrendingUp, Dumbbell, Lightbulb, Heart, X, Loader2, Radio } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays } from '@/data/challengeData';
 import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
+import { useBT30Access } from '@/hooks/useBT30Access';
 
 export default function WorkoutDetail() {
   const { day } = useParams();
   const dayNum = parseInt(day) || 1;
   const workout = workoutDays.find(d => d.day === dayNum) || workoutDays[0];
   const { isCompleted, toggleDay } = useWorkoutProgress();
+  const { hasAccess, checking } = useBT30Access();
   const completed = isCompleted(dayNum);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
@@ -46,6 +48,18 @@ export default function WorkoutDetail() {
     }, 200);
     return () => clearInterval(interval);
   }, [isPlaying]);
+
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="w-8 h-8 border-4 border-border border-t-teal rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!hasAccess) {
+    return <Navigate to="/programs/bt30" replace />;
+  }
 
   const isRest = workout.type === 'rest';
   const prevDay = dayNum > 1 ? dayNum - 1 : null;
