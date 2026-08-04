@@ -3,6 +3,7 @@ import { TrendingUp, Scale, Camera, Award, Flame, Target, Plus, X, Loader2 } fro
 import { Image } from '@/components/ui/image';
 import { base44 } from '@/api/base44Client';
 import ConsistencyDashboard from '@/components/progress/ConsistencyDashboard';
+import TransformationDashboard from '@/components/progress/TransformationDashboard';
 
 const measurementFields = [
   { key: 'chest', label: 'Chest', unit: '"' },
@@ -186,6 +187,14 @@ export default function Progress() {
           <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Consistency</span>
         </div>
         <ConsistencyDashboard />
+      </div>
+
+      {/* Transformation Dashboard */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Your Transformation</span>
+        </div>
+        <TransformationDashboard entries={entries} photos={photos} />
       </div>
 
       {/* Stats Grid */}
