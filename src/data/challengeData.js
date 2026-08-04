@@ -57,6 +57,24 @@ export const coaches = [
     image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/264c0baeb_grok_image_1780341307689.jpg',
     specialties: ['Strength Training', 'Hypertrophy', 'Athletic Performance', 'Conditioning'],
   },
+  {
+    id: 'harut-hovakimyan',
+    name: 'Harut Hovakimyan',
+    role: 'MMA Coach',
+    handle: '@haruthovakimyan',
+    bio: 'A seasoned mixed martial arts coach with a deep background in striking, grappling, and fight conditioning. Harut brings years of competitive experience and technical precision to every session, helping members build real combat skills, explosive power, and unshakable confidence.',
+    image: 'https://images.unsplash.com/photo-1609710223499-9c1b5c93c21f?w=800&q=80',
+    specialties: ['MMA', 'Striking', 'Grappling', 'Fight Conditioning'],
+  },
+  {
+    id: 'vahan-torosyan',
+    name: 'Vahan Torosyan',
+    role: 'Boxing Coach',
+    handle: '@vahantorosyan',
+    bio: 'A dedicated boxing coach with a passion for the sweet science. Vahan combines classic boxing fundamentals with modern athletic conditioning, teaching members proper footwork, combinations, head movement, and defensive technique — building both skill and elite cardiovascular fitness.',
+    image: 'https://images.unsplash.com/photo-1549474175-4e1f9d4c7e1f?w=800&q=80',
+    specialties: ['Boxing', 'Footwork', 'Combinations', 'Cardio Conditioning'],
+  },
 ];
 
 export const equipment = [
