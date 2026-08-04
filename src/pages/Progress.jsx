@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { TrendingUp, Scale, Camera, Award, Flame, Target, Plus, X, Loader2 } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { base44 } from '@/api/base44Client';
+import ConsistencyDashboard from '@/components/progress/ConsistencyDashboard';
 
 const measurementFields = [
   { key: 'chest', label: 'Chest', unit: '"' },
@@ -177,6 +178,14 @@ export default function Progress() {
         >
           <Plus className="w-4 h-4" /> Log Entry
         </button>
+      </div>
+
+      {/* Consistency Dashboard */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Consistency</span>
+        </div>
+        <ConsistencyDashboard />
       </div>
 
       {/* Stats Grid */}
