@@ -1,0 +1,95 @@
+{
+  "name": "AIWorkoutHistory",
+  "type": "object",
+  "properties": {
+    "workout_title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "estimated_duration": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "string"
+    },
+    "training_goal": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "find_exercise",
+        "build_workout"
+      ]
+    },
+    "equipment_needed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exercises": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "target_muscles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sets": {
+            "type": "string"
+          },
+          "reps": {
+            "type": "string"
+          },
+          "rest_seconds": {
+            "type": "number"
+          },
+          "equipment": {
+            "type": "string"
+          },
+          "instructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "form_tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "easier_modification": {
+            "type": "string"
+          },
+          "harder_progression": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "trainer_notes": {
+      "type": "string"
+    },
+    "safety_notes": {
+      "type": "string"
+    },
+    "request_summary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "workout_title",
+    "exercises",
+    "mode"
+  ]
+}

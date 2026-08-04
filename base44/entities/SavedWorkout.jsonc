@@ -1,0 +1,120 @@
+{
+  "name": "SavedWorkout",
+  "type": "object",
+  "properties": {
+    "workout_title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "estimated_duration": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "string"
+    },
+    "training_goal": {
+      "type": "string"
+    },
+    "equipment_needed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warmup": {
+      "type": "string"
+    },
+    "exercises": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "target_muscles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sets": {
+            "type": "string"
+          },
+          "reps": {
+            "type": "string"
+          },
+          "rest_seconds": {
+            "type": "number"
+          },
+          "tempo": {
+            "type": "string"
+          },
+          "equipment": {
+            "type": "string"
+          },
+          "instructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "form_tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "common_mistakes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "easier_modification": {
+            "type": "string"
+          },
+          "harder_progression": {
+            "type": "string"
+          },
+          "video_url": {
+            "type": "string"
+          },
+          "thumbnail_url": {
+            "type": "string"
+          },
+          "completed": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "finisher": {
+      "type": "string"
+    },
+    "cooldown": {
+      "type": "string"
+    },
+    "trainer_notes": {
+      "type": "string"
+    },
+    "safety_notes": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "ai_generated",
+        "manual"
+      ],
+      "default": "ai_generated"
+    }
+  },
+  "required": [
+    "workout_title",
+    "exercises"
+  ]
+}

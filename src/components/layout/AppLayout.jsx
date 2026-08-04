@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom';
-import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus, LayoutDashboard, ScanLine, Shield } from 'lucide-react';
+import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus, LayoutDashboard, ScanLine, Shield, Sparkles } from 'lucide-react';
 import HFLogo from '@/components/HFLogo';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -8,6 +8,7 @@ const navItems = [
   { to: '/', label: 'Home', icon: Home },
   { to: '/dashboard', label: 'My Membership', icon: LayoutDashboard },
   { to: '/join', label: 'Join', icon: UserPlus },
+  { to: '/hf-ai', label: 'HF AI Trainer', icon: Sparkles },
   { to: '/programs', label: 'Programs', icon: Dumbbell },
   { to: '/nutrition', label: 'Nutrition', icon: Apple },
   { to: '/mindset', label: 'Mindset', icon: Brain },

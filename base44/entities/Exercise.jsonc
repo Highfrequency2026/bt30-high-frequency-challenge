@@ -1,0 +1,128 @@
+{
+  "name": "Exercise",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "muscle_group": {
+      "type": "string",
+      "enum": [
+        "full_body",
+        "chest",
+        "back",
+        "shoulders",
+        "arms",
+        "core",
+        "glutes",
+        "quads",
+        "hamstrings",
+        "calves"
+      ]
+    },
+    "equipment": {
+      "type": "string",
+      "enum": [
+        "none",
+        "dumbbells",
+        "resistance_bands",
+        "barbell",
+        "cable_machine",
+        "machines",
+        "kettlebells",
+        "pull_up_bar",
+        "full_gym"
+      ]
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ]
+    },
+    "movement_type": {
+      "type": "string",
+      "enum": [
+        "push",
+        "pull",
+        "squat",
+        "hinge",
+        "lunge",
+        "carry",
+        "rotation",
+        "anti_rotation",
+        "isolation",
+        "conditioning",
+        "mobility"
+      ]
+    },
+    "workout_location": {
+      "type": "string",
+      "enum": [
+        "gym",
+        "home",
+        "outdoor"
+      ]
+    },
+    "target_muscles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "instructions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "form_tips": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "common_mistakes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "easier_modification": {
+      "type": "string"
+    },
+    "harder_progression": {
+      "type": "string"
+    },
+    "sets_recommended": {
+      "type": "string"
+    },
+    "reps_recommended": {
+      "type": "string"
+    },
+    "rest_seconds": {
+      "type": "number"
+    },
+    "tempo": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string"
+    },
+    "thumbnail_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "muscle_group",
+    "equipment",
+    "difficulty",
+    "movement_type"
+  ]
+}

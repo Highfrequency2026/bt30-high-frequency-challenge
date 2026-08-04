@@ -1,0 +1,86 @@
+{
+  "name": "FitnessProfile",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string"
+    },
+    "age_range": {
+      "type": "string",
+      "enum": [
+        "18_24",
+        "25_34",
+        "35_44",
+        "45_54",
+        "55_64",
+        "65_plus"
+      ]
+    },
+    "height": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "string"
+    },
+    "primary_goal": {
+      "type": "string",
+      "enum": [
+        "lose_body_fat",
+        "build_muscle",
+        "tone_sculpt",
+        "increase_strength",
+        "improve_conditioning",
+        "improve_mobility",
+        "athletic_performance"
+      ]
+    },
+    "experience_level": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ]
+    },
+    "preferred_training_days": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "available_equipment": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "training_location": {
+      "type": "string",
+      "enum": [
+        "gym",
+        "home",
+        "outdoor"
+      ]
+    },
+    "injuries_limitations": {
+      "type": "string"
+    },
+    "favorite_exercises": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exercises_to_avoid": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "first_name",
+    "primary_goal",
+    "experience_level"
+  ]
+}

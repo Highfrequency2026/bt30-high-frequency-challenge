@@ -39,6 +39,12 @@ import Community from './pages/Community';
 import Podcast from './pages/Podcast';
 import LiveTraining from './pages/LiveTraining';
 import Events from './pages/Events';
+import HFAITrainer from './pages/HFAITrainer';
+import ExerciseLibrary from './pages/ExerciseLibrary';
+import ExerciseDetail from './pages/ExerciseDetail';
+import SavedWorkouts from './pages/SavedWorkouts';
+import AIWorkoutHistory from './pages/AIWorkoutHistory';
+import FitnessProfile from './pages/FitnessProfile';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -105,6 +111,12 @@ const AuthenticatedApp = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/coaches" element={<Coaches />} />
         <Route path="/store" element={<Store />} />
+        <Route path="/hf-ai" element={<HFAITrainer />} />
+        <Route path="/hf-ai/library" element={<ExerciseLibrary />} />
+        <Route path="/hf-ai/exercise/:id" element={<ExerciseDetail />} />
+        <Route path="/hf-ai/saved" element={<SavedWorkouts />} />
+        <Route path="/hf-ai/history" element={<AIWorkoutHistory />} />
+        <Route path="/hf-ai/profile" element={<FitnessProfile />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
