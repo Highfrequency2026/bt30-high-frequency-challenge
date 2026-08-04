@@ -1,70 +1,106 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Flame, TrendingUp, Droplet, ChevronRight, Dumbbell, Brain, Award, MessageCircle, Mic, Radio, Calendar, Users, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Play, Flame, TrendingUp, Droplet, ChevronRight, Dumbbell, Brain, Award, MessageCircle, Mic, Radio, Users, ShoppingBag, ArrowRight, Bot } from 'lucide-react';
 import { Image } from '@/components/ui/image';
-import { BRE_IMG, HF_LOGO, workoutDays } from '@/data/challengeData';
+import { BRE_IMG, workoutDays } from '@/data/challengeData';
 import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
+const HF_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/a1a2ce0cf_ChatGPTImageJul31202605_23_48PM.png";
+
+const BT_COLLAB_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/12a4b6940_ChatGPTImageAug1202608_03_36AM.png";
+
 export default function Home() {
-  const { completedDays, completedCount, isCompleted } = useWorkoutProgress();
+  const { completedCount, isCompleted } = useWorkoutProgress();
   const todayWorkout = workoutDays.find(d => !isCompleted(d.day)) || workoutDays[0];
   const currentDay = completedCount + 1;
 
   return (
     <div className="animate-fade-in">
-      {/* Hero */}
-      <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden">
-        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.18} className="absolute inset-0 w-full h-full" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-background/50 to-transparent" />
-
-        {/* Logo — top-right, fully visible, transparent background via blend mode */}
-        <img
-          src="https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/12a4b6940_ChatGPTImageAug1202608_03_36AM.png"
-          alt="BT — Bre Tiesi × High Frequency"
-          className="absolute top-2 right-2 md:top-3 md:right-3 lg:top-4 lg:right-4 z-20 w-56 h-72 md:w-72 md:h-[26rem] lg:w-96 lg:h-[33rem] object-contain object-top pointer-events-none"
-          style={{ mixBlendMode: 'screen', filter: 'brightness(1.12) contrast(1.15) hue-rotate(-22deg) saturate(1.4) drop-shadow(0 4px 20px rgba(0,0,0,0.6))' }}
+      {/* ===== HERO — High Frequency Brand ===== */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+        {/* Background: dark with subtle teal radial glow */}
+        <div className="absolute inset-0 bg-background" />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 35%, rgba(69, 177, 179, 0.10) 0%, transparent 70%)' }}
         />
+        {/* Subtle bottom fade into page */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-background" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-6 md:pb-8">
-          <div className="max-w-lg">
-            <h1 className="font-display text-2xl md:text-6xl text-teal mb-3 leading-tight whitespace-nowrap">
-              Welcome to High Frequency App.
-            </h1>
-            <p className="text-xs md:text-sm text-zinc-300 font-light mb-5 max-w-md leading-relaxed">
-              A premium ecosystem built to elevate your health, your mindset, your performance, and your life through world-class coaching, transformative programs, and an elite community.
-            </p>
-            <div className="border border-teal/20 bg-teal/5 rounded-xl p-4 mb-4 max-w-md">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[9px] tracking-[0.3em] uppercase text-teal font-bold bg-teal/10 px-2 py-0.5 rounded-full">Featured Product</span>
-                <span className="text-zinc-600 text-xs">•</span>
-                <span className="text-xs text-zinc-400">Featuring Bre Tiesi</span>
-              </div>
-              <h3 className="font-display text-2xl text-white mb-1">BT30™ — The High Frequency Method</h3>
-              <p className="text-xs text-zinc-400">30 days. 30 workouts. One transformation.</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link to={`/workout/${todayWorkout.day}`} className="group inline-flex items-center justify-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-teal/90 transition-all">
-                <Play className="w-4 h-4 fill-white" />
-                {completedCount > 0 ? 'Continue BT30™' : 'Start BT30™'}
-              </Link>
-              <Link to="/programs" className="inline-flex items-center justify-center gap-2 border border-platinum/30 text-platinum font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-white/5 transition-all">
-                Explore Platform
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
+        <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto pt-20 pb-12">
+          {/* HF Logo — the hero centerpiece */}
+          <img
+            src={HF_LOGO}
+            alt="High Frequency"
+            className="w-64 md:w-80 lg:w-96 h-auto mb-6 object-contain"
+            style={{ filter: 'drop-shadow(0 0 40px rgba(69, 177, 179, 0.25))' }}
+          />
+
+          <p className="text-sm md:text-base text-zinc-400 font-light max-w-xl leading-relaxed mb-2">
+            A premium ecosystem built to elevate your health, your mindset, your performance, and your life.
+          </p>
+          <p className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold mb-8">
+            World-Class Coaching · Transformative Programs · Elite Community
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link to="/programs" className="group inline-flex items-center justify-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-teal/90 transition-all">
+              Explore Programs
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link to="/programs/bt30" className="inline-flex items-center justify-center gap-2 border border-platinum/30 text-platinum font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-white/5 transition-all">
+              <Play className="w-4 h-4 fill-teal text-teal" />
+              Start BT30™
+            </Link>
           </div>
         </div>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 animate-pulse">
-          <span className="text-[10px] tracking-[0.3em] uppercase text-zinc-500">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-zinc-500 to-transparent" />
+          <span className="text-[10px] tracking-[0.3em] uppercase text-zinc-600">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-zinc-600 to-transparent" />
         </div>
       </section>
 
-      {/* Dashboard */}
+      {/* ===== BT30 — Featured Product (Bre Tiesi × High Frequency) ===== */}
+      <section className="relative overflow-hidden border-t border-border">
+        {/* Bre Tiesi background image */}
+        <Image src={BRE_IMG} alt="Bre Tiesi" fittingType="fill" focalPointX={0.55} focalPointY={0.2} className="absolute inset-0 w-full h-full" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+
+        {/* BT Collaboration Logo — top right of this section */}
+        <img
+          src={BT_COLLAB_LOGO}
+          alt="Bre Tiesi × High Frequency — BT30"
+          className="absolute top-4 right-4 md:top-6 md:right-8 z-10 w-40 md:w-52 lg:w-60 h-auto object-contain pointer-events-none"
+          style={{ filter: 'brightness(1.1) contrast(1.1) drop-shadow(0 4px 20px rgba(0,0,0,0.6))' }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-20 min-h-[600px] flex items-center">
+          <div className="max-w-lg">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[9px] tracking-[0.3em] uppercase text-teal font-bold bg-teal/10 px-3 py-1 rounded-full">Featured Program</span>
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl text-white mb-2">BT30™</h2>
+            <p className="text-sm text-platinum italic mb-4">The High Frequency Method — Featuring Bre Tiesi</p>
+            <p className="text-sm md:text-base text-zinc-300 font-light mb-6 leading-relaxed">
+              30 days. 30 workouts. One transformation. Train alongside Bre Tiesi with the flagship High Frequency program designed to reshape your body and elevate your mindset in just one month.
+            </p>
+            <div className="flex flex-wrap gap-4 mb-6 text-xs">
+              <span className="flex items-center gap-1.5 text-zinc-300"><Dumbbell className="w-3.5 h-3.5 text-teal" />30 Workouts</span>
+              <span className="flex items-center gap-1.5 text-zinc-300"><Flame className="w-3.5 h-3.5 text-teal" />4 Weeks</span>
+              <span className="flex items-center gap-1.5 text-zinc-300"><TrendingUp className="w-3.5 h-3.5 text-teal" />All Levels</span>
+            </div>
+            <Link to="/programs/bt30" className="group inline-flex items-center justify-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-lg hover:bg-teal/90 transition-all">
+              <Play className="w-4 h-4 fill-white" />
+              {completedCount > 0 ? `Continue — Day ${currentDay}` : 'Start the Challenge'}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Today's Workout Quick Access ===== */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
         <div className="flex items-end justify-between mb-8">
           <div>
@@ -74,12 +110,11 @@ export default function Home() {
           <span className="text-sm text-zinc-500">Day {currentDay} of 30</span>
         </div>
 
-        {/* Today's Workout Card */}
         <Link to={`/workout/${todayWorkout.day}`} className="group block relative overflow-hidden rounded-2xl border border-border bg-card mb-8 hover:border-primary/40 transition-all">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-2/5 relative h-64 md:h-auto overflow-hidden">
               <Image src="https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/3e63c1b5c_images-1.jpeg" alt={todayWorkout.title} fittingType="fit" focalPointY={0.2} className="w-full h-full" />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80 md:bg-gradient-to-r" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80" />
             </div>
             <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-3">
@@ -101,8 +136,8 @@ export default function Home() {
           </div>
         </Link>
 
-        {/* Quick Access Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Quick Access + Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Link to="/nutrition" className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 hover:border-primary/40 transition-all">
             <Droplet className="w-6 h-6 text-teal mb-4" />
             <h4 className="font-bold text-white mb-1">Nutrition</h4>
@@ -123,8 +158,7 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Day Streak', value: completedCount > 0 ? String(completedCount) : '0', icon: Flame },
             { label: 'Workouts Done', value: String(completedCount), icon: Dumbbell },
@@ -145,7 +179,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* High Frequency Ecosystem */}
+      {/* ===== The Ecosystem ===== */}
       <section className="border-t border-border bg-card/30">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
           <div className="text-center mb-12">
@@ -158,13 +192,13 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-12">
             {[
               { label: 'Programs', icon: Dumbbell, to: '/programs' },
+              { label: 'HF AI Trainer', icon: Bot, to: '/hf-ai' },
               { label: 'Nutrition', icon: Droplet, to: '/nutrition' },
               { label: 'Mindset', icon: Brain, to: '/mindset' },
               { label: 'Progress', icon: TrendingUp, to: '/progress' },
               { label: 'Community', icon: MessageCircle, to: '/community' },
               { label: 'Podcast', icon: Mic, to: '/podcast' },
               { label: 'Live Training', icon: Radio, to: '/live' },
-              { label: 'Events', icon: Calendar, to: '/events' },
               { label: 'Coaches', icon: Users, to: '/coaches' },
               { label: 'Store', icon: ShoppingBag, to: '/store' },
             ].map(item => {
@@ -178,9 +212,9 @@ export default function Home() {
             })}
           </div>
 
-          {/* Featured Products */}
+          {/* All Programs */}
           <div className="text-center mb-6">
-            <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Products</span>
+            <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold">Programs</span>
             <h3 className="font-display text-2xl text-white mt-1">High Frequency Programs</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
