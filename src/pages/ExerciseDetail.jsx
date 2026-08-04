@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChevronRight, Dumbbell, Clock, AlertCircle, Check, Play, Sparkles } from 'lucide-react';
+import { ChevronRight, Dumbbell, Clock, AlertCircle, Check, Play, Sparkles, Youtube } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 export default function ExerciseDetail() {
@@ -130,12 +130,45 @@ export default function ExerciseDetail() {
         )}
       </div>
 
-      {/* Video */}
-      {exercise.video_url && (
-        <a href={exercise.video_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-teal text-white font-bold text-sm tracking-wider uppercase px-6 py-3 rounded-lg hover:bg-teal/90 transition-all mb-6">
-          <Play className="w-4 h-4 fill-white" /> Watch Video
-        </a>
-      )}
+      {/* Video Reference — always shown */}
+      <div className="rounded-2xl border border-border bg-card overflow-hidden mb-6">
+        {(() => {
+          const videoUrl = exercise.video_url || `https://www.youtube.com/results?search_query=${encodeURIComponent(exercise.name + ' proper form tutorial')}`;
+          const ytMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+          const thumb = ytMatch ? `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg` : exercise.thumbnail_url;
+          const isSearch = !exercise.video_url;
+          return (
+            <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="block group">
+              {thumb ? (
+                <div className="relative">
+                  <img src={thumb} alt={`${exercise.name} tutorial`} className="w-full h-56 md:h-72 object-cover" />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Play className="w-7 h-7 text-white fill-white ml-1" />
+                    </div>
+                  </div>
+                  <span className="absolute bottom-3 left-3 text-[10px] tracking-widest uppercase text-white font-bold bg-black/70 px-2.5 py-1 rounded">
+                    {isSearch ? 'Search YouTube' : 'Watch Tutorial'}
+                  </span>
+                </div>
+              ) : (
+                <div className="w-full h-28 bg-gradient-to-r from-red-600/20 to-red-900/20 flex items-center justify-center">
+                  <Youtube className="w-10 h-10 text-red-500" />
+                </div>
+              )}
+              <div className="flex items-center justify-between p-4">
+                <div className="flex items-center gap-2">
+                  <Youtube className="w-4 h-4 text-red-500" />
+                  <span className="text-sm font-bold text-white">{isSearch ? `Find "${exercise.name}" on YouTube` : 'Watch Form Tutorial'}</span>
+                </div>
+                <span className="text-xs text-zinc-500 group-hover:text-teal transition-colors flex items-center gap-1">
+                  <Play className="w-3 h-3" /> Play
+                </span>
+              </div>
+            </a>
+          );
+        })()}
+      </div>
 
       {/* Disclaimer */}
       <div className="flex items-start gap-2 text-[10px] text-zinc-600 leading-relaxed bg-muted/30 rounded-lg p-3">
