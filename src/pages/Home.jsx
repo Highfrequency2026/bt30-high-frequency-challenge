@@ -5,7 +5,7 @@ import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays } from '@/data/challengeData';
 import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
-const HF_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/a1a2ce0cf_ChatGPTImageJul31202605_23_48PM.png";
+const HF_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/dfd8f711f_ChatGPTImageJun30202601_30_25PM.png";
 
 const BT_COLLAB_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/12a4b6940_ChatGPTImageAug1202608_03_36AM.png";
 
@@ -28,12 +28,12 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-background" />
 
         <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto pt-20 pb-12">
-          {/* HF Logo — the hero centerpiece */}
+          {/* HF Logo — the hero centerpiece (black bg blends to transparent via screen mode) */}
           <img
             src={HF_LOGO}
-            alt="High Frequency"
-            className="w-64 md:w-80 lg:w-96 h-auto mb-6 object-contain"
-            style={{ filter: 'drop-shadow(0 0 40px rgba(69, 177, 179, 0.25))' }}
+            alt="High Frequency — Private Fitness Club"
+            className="w-64 md:w-80 lg:w-[28rem] h-auto mb-6 object-contain"
+            style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 50px rgba(69, 179, 179, 0.3))' }}
           />
 
           <p className="text-sm md:text-base text-zinc-400 font-light max-w-xl leading-relaxed mb-2">
