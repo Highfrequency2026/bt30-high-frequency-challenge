@@ -1,0 +1,80 @@
+{
+  "name": "ProgressPhoto",
+  "type": "object",
+  "properties": {
+    "photo_url": {
+      "type": "string",
+      "description": "Public URL of the uploaded or sample photo"
+    },
+    "photo_uri": {
+      "type": "string",
+      "description": "Private file URI if uploaded via UploadPrivateFile"
+    },
+    "slot": {
+      "type": "string",
+      "description": "Photo slot label (e.g. Before, Week 2, After)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "before",
+        "progress",
+        "after",
+        "custom"
+      ],
+      "default": "progress"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "taken_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "photo_url",
+    "slot"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

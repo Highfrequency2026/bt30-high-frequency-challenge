@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { TrendingUp, Scale, Camera, Award, Flame, Target, Plus, X, Loader2 } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 import { base44 } from '@/api/base44Client';
@@ -34,10 +34,28 @@ export default function Progress() {
   const [entries, setEntries] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [photos, setPhotos] = useState({});
+  const [photoRecords, setPhotoRecords] = useState({});
   const [uploadingSlot, setUploadingSlot] = useState(null);
   const [photoUrlInput, setPhotoUrlInput] = useState('');
   const fileRefs = useRef({});
-  const [form, setForm] = useState({ weight: '', chest: '', waist: '', hips: '', rightArm: '', leftArm: '', rightThigh: '', leftThigh: '', bodyFat: '' });
+  const [form, setForm] = useState({ weight: '', chest: '', waist: '', hips: '', rightArm: '', leftArm: '', leftThigh: '', rightThigh: '', bodyFat: '' });
+
+  useEffect(() => {
+    base44.entities.ProgressPhoto.list('-created_date', 50)
+      .then(records => {
+        const photoMap = {};
+        const recordMap = {};
+        records.forEach(r => {
+          if (r.slot && r.photo_url) {
+            photoMap[r.slot] = r.photo_url;
+            recordMap[r.slot] = r;
+          }
+        });
+        setPhotos(photoMap);
+        setPhotoRecords(recordMap);
+      })
+      .catch(() => {});
+  }, []);
 
   const latest = entries[0] || null;
   const currentWeight = latest?.weight;
@@ -70,7 +88,14 @@ export default function Progress() {
     setUploadingSlot(slot);
     try {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      const record = await base44.entities.ProgressPhoto.create({
+        photo_url: file_url,
+        slot,
+        category: slot === 'Before' ? 'before' : slot === 'After' ? 'after' : 'progress',
+        taken_date: new Date().toISOString().split('T')[0]
+      });
       setPhotos(prev => ({ ...prev, [slot]: file_url }));
+      setPhotoRecords(prev => ({ ...prev, [slot]: record }));
     } catch (e) {
       console.error('Upload failed', e);
     }
@@ -79,17 +104,51 @@ export default function Progress() {
 
   const firstEmptySlot = () => photoSlots.find(s => !photos[s]) || photoSlots[0];
 
-  const handleSamplePhoto = (url) => {
+  const handleSamplePhoto = async (url) => {
     const slot = firstEmptySlot();
-    setPhotos(prev => ({ ...prev, [slot]: url }));
+    try {
+      const record = await base44.entities.ProgressPhoto.create({
+        photo_url: url,
+        slot,
+        category: slot === 'Before' ? 'before' : slot === 'After' ? 'after' : 'progress',
+        taken_date: new Date().toISOString().split('T')[0]
+      });
+      setPhotos(prev => ({ ...prev, [slot]: url }));
+      setPhotoRecords(prev => ({ ...prev, [slot]: record }));
+    } catch (e) {
+      console.error('Failed to save photo', e);
+    }
   };
 
-  const handlePhotoUrl = () => {
+  const handlePhotoUrl = async () => {
     const url = photoUrlInput.trim();
     if (!url) return;
     const slot = firstEmptySlot();
-    setPhotos(prev => ({ ...prev, [slot]: url }));
-    setPhotoUrlInput('');
+    try {
+      const record = await base44.entities.ProgressPhoto.create({
+        photo_url: url,
+        slot,
+        category: slot === 'Before' ? 'before' : slot === 'After' ? 'after' : 'progress',
+        taken_date: new Date().toISOString().split('T')[0]
+      });
+      setPhotos(prev => ({ ...prev, [slot]: url }));
+      setPhotoRecords(prev => ({ ...prev, [slot]: record }));
+      setPhotoUrlInput('');
+    } catch (e) {
+      console.error('Failed to save photo', e);
+    }
+  };
+
+  const handleDeletePhoto = async (slot) => {
+    const record = photoRecords[slot];
+    if (!record) return;
+    try {
+      await base44.entities.ProgressPhoto.delete(record.id);
+      setPhotos(prev => { const next = { ...prev }; delete next[slot]; return next; });
+      setPhotoRecords(prev => { const next = { ...prev }; delete next[slot]; return next; });
+    } catch (e) {
+      console.error('Failed to delete photo', e);
+    }
   };
 
   const unlockedCount = allAchievements.filter(a => a.check(entries)).length;
@@ -203,12 +262,19 @@ export default function Progress() {
               {photos[slot] ? (
                 <div className="relative w-full h-full rounded-xl overflow-hidden border border-border">
                   <Image src={photos[slot]} alt={slot} fittingType="fill" className="w-full h-full" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center gap-2">
                     <button
                       onClick={() => fileRefs.current[slot]?.click()}
                       className="opacity-0 group-hover:opacity-100 transition-opacity bg-teal text-white font-bold text-[10px] tracking-wider uppercase px-4 py-2 rounded-lg relative z-30"
                     >
                       Replace
+                    </button>
+                    <button
+                      onClick={() => handleDeletePhoto(slot)}
+                      data-testid={`delete-photo-${slot.toLowerCase().replace(/\s+/g, '-')}`}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity bg-destructive text-white font-bold text-[10px] tracking-wider uppercase px-4 py-2 rounded-lg relative z-30"
+                    >
+                      Remove
                     </button>
                   </div>
                   <span className="absolute bottom-2 left-2 text-[10px] tracking-widest uppercase text-white font-bold bg-black/60 px-2 py-1 rounded">{slot}</span>
