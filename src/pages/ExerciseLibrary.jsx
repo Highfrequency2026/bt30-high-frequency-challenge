@@ -15,15 +15,32 @@ export default function ExerciseLibrary() {
   const [workoutLocation, setWorkoutLocation] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     base44.entities.Exercise.list('-created_date', 100)
       .then(setExercises)
-      .catch(() => {})
+      .catch(err => {
+        console.error('Failed to load exercises:', err);
+        setError('Could not load exercises. Please try again.');
+      })
       .finally(() => setLoading(false));
   }, []);
 
   const filtered = exercises.filter(ex => {
-    if (search && !ex.name?.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      const haystack = [
+        ex.name,
+        ex.description,
+        ex.muscle_group,
+        ex.equipment,
+        ex.movement_type,
+        ex.difficulty,
+        ...(ex.target_muscles || [])
+      ].filter(Boolean).join(' ').toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
     if (muscleGroup && ex.muscle_group !== muscleGroup) return false;
     if (equipment && ex.equipment !== equipment) return false;
     if (difficulty && ex.difficulty !== difficulty) return false;
@@ -113,6 +130,10 @@ export default function ExerciseLibrary() {
       {loading ? (
         <div className="flex items-center justify-center py-20">
           <div className="w-8 h-8 border-4 border-border border-t-teal rounded-full animate-spin" />
+        </div>
+      ) : error ? (
+        <div className="text-center py-16">
+          <p className="text-zinc-500 text-sm">{error}</p>
         </div>
       ) : filtered.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
