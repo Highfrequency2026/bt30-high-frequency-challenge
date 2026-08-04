@@ -9,7 +9,7 @@ export function useCheckout() {
   const startCheckout = async (productId) => {
     setLoadingId(productId);
     try {
-      const res = await base44.functions.invoke('create-checkout', { productId });
+      const res = await base44.functions.invoke('create-stripe-checkout', { productId });
       const redirectUrl = res?.data?.redirectUrl;
       if (redirectUrl) {
         window.location.href = redirectUrl;
