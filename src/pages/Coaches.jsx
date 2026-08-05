@@ -27,7 +27,7 @@ export default function Coaches() {
               <span className="text-[10px] tracking-[0.3em] uppercase text-teal font-bold mb-2">{coach.role}</span>
               <h2 className="font-display text-3xl md:text-4xl text-white mb-2">{coach.name}</h2>
               <p className="text-sm text-platinum italic mb-4 flex items-center gap-1.5">
-                <Instagram className="w-3.5 h-3.5" /> {coach.handle}
+                <Instagram className="w-3.5 h-3.5" /> <a href={coach.instagramUrl || `https://www.instagram.com/${coach.handle.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-teal transition-colors">{coach.handle}</a>
               </p>
               <p className="text-sm text-zinc-400 leading-relaxed mb-5 max-w-lg">{coach.bio}</p>
 
