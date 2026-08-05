@@ -75,6 +75,15 @@ export const coaches = [
     image: 'https://images.unsplash.com/photo-1549474175-4e1f9d4c7e1f?w=800&q=80',
     specialties: ['Boxing', 'Footwork', 'Combinations', 'Cardio Conditioning'],
   },
+  {
+    id: 'alec',
+    name: 'Alec',
+    role: 'Strength & Conditioning Coach',
+    handle: '@alec',
+    bio: 'A dedicated strength and conditioning coach with a passion for building strong, athletic bodies. Alec brings a results-driven approach to training, combining progressive overload with functional movement patterns to help members build real strength, power, and confidence in and out of the gym.',
+    image: 'https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/a26a1edbd_ChatGPTImageAug4202606_35_54PM.jpg',
+    specialties: ['Strength Training', 'Conditioning', 'Hypertrophy', 'Functional Fitness'],
+  },
 ];
 
 export const equipment = [
