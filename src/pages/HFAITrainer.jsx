@@ -5,6 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useToast } from '@/components/ui/use-toast';
 import QuickSelect from '@/components/hf-ai/QuickSelect';
 import WorkoutDisplay from '@/components/hf-ai/WorkoutDisplay';
+import FindExercisePanel from '@/components/hf-ai/FindExercisePanel';
 import { FITNESS_GOALS, BODY_AREAS, EQUIPMENT_OPTIONS, EXPERIENCE_LEVELS, DURATION_OPTIONS } from '@/data/hfAiData';
 
 export default function HFAITrainer() {
@@ -170,8 +171,13 @@ export default function HFAITrainer() {
         </button>
       </div>
 
-      {/* Form */}
-      {!workout && (
+      {/* Find Exercise Mode — search the Exercise Library */}
+      {mode === 'find_exercise' && !workout && (
+        <FindExercisePanel />
+      )}
+
+      {/* Build Workout Form */}
+      {mode === 'build_workout' && !workout && (
         <div className="space-y-6">
           {/* Custom Request */}
           <div className="rounded-2xl border border-border bg-card p-5">
@@ -279,6 +285,14 @@ export default function HFAITrainer() {
             <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
             <p>This information is general fitness education and is not medical advice. Always consult a healthcare professional before starting any exercise program.</p>
           </div>
+        </div>
+      )}
+
+      {/* Find Exercise mode disclaimer */}
+      {mode === 'find_exercise' && (
+        <div className="flex items-start gap-2 text-[10px] text-zinc-600 leading-relaxed bg-muted/30 rounded-lg p-3">
+          <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+          <p>This information is general fitness education and is not medical advice. Always consult a healthcare professional before starting any exercise program.</p>
         </div>
       )}
 
