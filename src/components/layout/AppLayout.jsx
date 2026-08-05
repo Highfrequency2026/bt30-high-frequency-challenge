@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom';
-import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus, LayoutDashboard, ScanLine, Shield, Sparkles } from 'lucide-react';
+import { Home, Dumbbell, Apple, Brain, TrendingUp, Users, ShoppingBag, MessageCircle, Mic, Radio, Calendar, UserPlus, LayoutDashboard, ScanLine, Shield, Sparkles, Database } from 'lucide-react';
 import HFLogo from '@/components/HFLogo';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -23,6 +23,7 @@ const navItems = [
 
 const adminItems = [
   { to: '/staff-checkin', label: 'Check-In', icon: ScanLine },
+  { to: '/admin/exercise-importer', label: 'Exercise DB', icon: Database },
   { to: '/admin', label: 'Admin', icon: Shield },
 ];
 

@@ -45,6 +45,7 @@ import ExerciseDetail from './pages/ExerciseDetail';
 import SavedWorkouts from './pages/SavedWorkouts';
 import AIWorkoutHistory from './pages/AIWorkoutHistory';
 import FitnessProfile from './pages/FitnessProfile';
+import ExerciseImporter from './pages/ExerciseImporter';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -117,6 +118,7 @@ const AuthenticatedApp = () => {
         <Route path="/hf-ai/saved" element={<SavedWorkouts />} />
         <Route path="/hf-ai/history" element={<AIWorkoutHistory />} />
         <Route path="/hf-ai/profile" element={<FitnessProfile />} />
+        <Route path="/admin/exercise-importer" element={<ExerciseImporter />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

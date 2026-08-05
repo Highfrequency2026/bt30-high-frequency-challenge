@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Dumbbell, Filter, X, ChevronRight, Sparkles } from 'lucide-react';
+import { Search, Dumbbell, Filter, X, ChevronRight, Sparkles, Dumbbell as DumbbellIcon, Play, Eye } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { BODY_AREAS, EQUIPMENT_OPTIONS, EXPERIENCE_LEVELS, MOVEMENT_TYPES, WORKOUT_LOCATIONS } from '@/data/hfAiData';
+
+const PAGE_SIZE = 24;
 
 export default function ExerciseLibrary() {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [muscleGroup, setMuscleGroup] = useState(null);
-  const [equipment, setEquipment] = useState(null);
-  const [difficulty, setDifficulty] = useState(null);
-  const [movementType, setMovementType] = useState(null);
-  const [workoutLocation, setWorkoutLocation] = useState(null);
-  const [showFilters, setShowFilters] = useState(false);
-
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState('');
+  const [bodyPart, setBodyPart] = useState('');
+  const [equipment, setEquipment] = useState('');
+  const [target, setTarget] = useState('');
+  const [muscleGroup, setMuscleGroup] = useState('');
+  const [bodyweightOnly, setBodyweightOnly] = useState(false);
+  const [featuredOnly, setFeaturedOnly] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
-    base44.entities.Exercise.list('-created_date', 100)
-      .then(setExercises)
+    base44.entities.Exercise.list('-created_date', 1000)
+      .then(data => {
+        setExercises(data || []);
+      })
       .catch(err => {
         console.error('Failed to load exercises:', err);
         setError('Could not load exercises. Please try again.');
@@ -28,49 +31,56 @@ export default function ExerciseLibrary() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = exercises.filter(ex => {
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      const haystack = [
-        ex.name,
-        ex.description,
-        ex.muscle_group,
-        ex.equipment,
-        ex.movement_type,
-        ex.difficulty,
-        ...(ex.target_muscles || [])
-      ].filter(Boolean).join(' ').toLowerCase();
-      if (!haystack.includes(q)) return false;
-    }
-    if (muscleGroup && ex.muscle_group !== muscleGroup) return false;
-    if (equipment && ex.equipment !== equipment) return false;
-    if (difficulty && ex.difficulty !== difficulty) return false;
-    if (movementType && ex.movement_type !== movementType) return false;
-    if (workoutLocation && ex.workout_location !== workoutLocation) return false;
-    return true;
-  });
+  // Extract filter options
+  const filterOptions = useMemo(() => {
+    const extract = (field) => {
+      const vals = exercises.map(e => e[field]).filter(Boolean);
+      return [...new Set(vals)].sort();
+    };
+    return {
+      bodyParts: extract('body_part'),
+      equipment: extract('equipment'),
+      targets: extract('target'),
+      muscleGroups: extract('muscle_group'),
+    };
+  }, [exercises]);
 
-  const activeFilters = [muscleGroup, equipment, difficulty, movementType, workoutLocation].filter(Boolean);
-  const clearFilters = () => {
-    setMuscleGroup(null); setEquipment(null); setDifficulty(null); setMovementType(null); setWorkoutLocation(null);
-  };
+  // Apply filters
+  const filtered = useMemo(() => {
+    return exercises.filter(ex => {
+      if (search) {
+        const q = search.toLowerCase();
+        if (!(ex.name || '').toLowerCase().includes(q)) return false;
+      }
+      if (bodyPart && ex.body_part !== bodyPart) return false;
+      if (equipment && ex.equipment !== equipment) return false;
+      if (target && ex.target !== target) return false;
+      if (muscleGroup && ex.muscle_group !== muscleGroup) return false;
+      if (bodyweightOnly && ex.equipment !== 'body weight') return false;
+      if (featuredOnly && !ex.is_featured) return false;
+      return true;
+    });
+  }, [exercises, search, bodyPart, equipment, target, muscleGroup, bodyweightOnly, featuredOnly]);
 
-  const FilterSection = ({ title, options, value, onChange }) => (
-    <div>
-      <p className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold mb-2">{title}</p>
-      <div className="flex flex-wrap gap-1.5">
-        {options.map(opt => (
-          <button
-            key={opt.id}
-            onClick={() => onChange(value === opt.id ? null : opt.id)}
-            className={`px-2.5 py-1.5 rounded-md text-[11px] font-medium transition-all border ${value === opt.id ? 'bg-teal text-white border-teal' : 'bg-card text-zinc-400 border-border hover:border-teal/30'}`}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
+  const activeFilters = [bodyPart, equipment, target, muscleGroup, bodyweightOnly ? 'bodyweight' : '', featuredOnly ? 'featured' : ''].filter(Boolean);
+
+  function clearFilters() {
+    setBodyPart('');
+    setEquipment('');
+    setTarget('');
+    setMuscleGroup('');
+    setBodyweightOnly(false);
+    setFeaturedOnly(false);
+    setSearch('');
+  }
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [search, bodyPart, equipment, target, muscleGroup, bodyweightOnly, featuredOnly]);
 
   return (
     <div className="animate-fade-in max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
@@ -88,44 +98,40 @@ export default function ExerciseLibrary() {
       </div>
 
       {/* Search */}
-      <form
-        onSubmit={e => { e.preventDefault(); setSearchQuery(searchInput); }}
-        className="relative mb-4 flex gap-2"
-      >
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
-          <input
-            value={searchInput}
-            onChange={e => setSearchInput(e.target.value)}
-            placeholder="Search exercises (e.g. squat, chest, dumbbell)..."
-            className="w-full bg-card border border-border rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-teal text-white font-bold text-xs tracking-wider uppercase px-6 rounded-xl hover:bg-teal/90 transition-all"
-        >
-          Search
-        </button>
-        {searchQuery && (
-          <button
-            type="button"
-            onClick={() => { setSearchInput(''); setSearchQuery(''); }}
-            className="inline-flex items-center justify-center px-3 rounded-xl border border-border text-zinc-400 hover:text-white transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
-      </form>
+      <div className="relative mb-4">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search by exercise name..."
+          className="w-full bg-card border border-border rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-teal/50"
+        />
+      </div>
 
-      {/* Filter Toggle */}
-      <div className="flex items-center justify-between mb-4">
+      {/* Quick filters */}
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <button
+          onClick={() => setBodyweightOnly(!bodyweightOnly)}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+            bodyweightOnly ? 'bg-teal text-white border-teal' : 'bg-card text-zinc-400 border-border hover:border-teal/30'
+          }`}
+        >
+          Bodyweight Only
+        </button>
+        <button
+          onClick={() => setFeaturedOnly(!featuredOnly)}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+            featuredOnly ? 'bg-teal text-white border-teal' : 'bg-card text-zinc-400 border-border hover:border-teal/30'
+          }`}
+        >
+          Featured
+        </button>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 hover:text-teal transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border bg-card text-zinc-400 border-border hover:border-teal/30 transition-all"
         >
-          <Filter className="w-3.5 h-3.5" /> {showFilters ? 'Hide Filters' : 'Show Filters'}
-          {activeFilters.length > 0 && <span className="bg-teal/20 text-teal px-1.5 py-0.5 rounded-full text-[10px]">{activeFilters.length}</span>}
+          <Filter className="w-3 h-3" /> {showFilters ? 'Hide' : 'Show'} Filters
+          {activeFilters.length > 0 && <span className="bg-teal/20 text-teal px-1.5 rounded-full text-[10px]">{activeFilters.length}</span>}
         </button>
         {activeFilters.length > 0 && (
           <button onClick={clearFilters} className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-destructive transition-colors">
@@ -134,58 +140,138 @@ export default function ExerciseLibrary() {
         )}
       </div>
 
-      {/* Filters */}
+      {/* Detailed filters */}
       {showFilters && (
-        <div className="rounded-2xl border border-border bg-card p-5 space-y-4 mb-6 animate-fade-in">
-          <FilterSection title="Muscle Group" options={BODY_AREAS} value={muscleGroup} onChange={setMuscleGroup} />
-          <FilterSection title="Equipment" options={EQUIPMENT_OPTIONS} value={equipment} onChange={setEquipment} />
-          <FilterSection title="Difficulty" options={EXPERIENCE_LEVELS} value={difficulty} onChange={setDifficulty} />
-          <FilterSection title="Movement Type" options={MOVEMENT_TYPES} value={movementType} onChange={setMovementType} />
-          <FilterSection title="Workout Location" options={WORKOUT_LOCATIONS} value={workoutLocation} onChange={setWorkoutLocation} />
+        <div className="rounded-2xl border border-border bg-card p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 animate-fade-in">
+          <FilterDropdown label="Body Part" value={bodyPart} options={filterOptions.bodyParts} onChange={setBodyPart} />
+          <FilterDropdown label="Equipment" value={equipment} options={filterOptions.equipment} onChange={setEquipment} />
+          <FilterDropdown label="Target Muscle" value={target} options={filterOptions.targets} onChange={setTarget} />
+          <FilterDropdown label="Muscle Group" value={muscleGroup} options={filterOptions.muscleGroups} onChange={setMuscleGroup} />
         </div>
       )}
 
-      {/* Results */}
+      {/* Results count */}
       <p className="text-xs text-zinc-500 mb-4">{filtered.length} exercise{filtered.length !== 1 ? 's' : ''} found</p>
 
+      {/* Content */}
       {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-4 border-border border-t-teal rounded-full animate-spin" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="rounded-2xl border border-border bg-card overflow-hidden animate-pulse">
+              <div className="h-40 bg-muted" />
+              <div className="p-4 space-y-2">
+                <div className="h-4 bg-muted rounded w-3/4" />
+                <div className="h-3 bg-muted rounded w-1/2" />
+                <div className="h-3 bg-muted rounded w-2/3" />
+              </div>
+            </div>
+          ))}
         </div>
       ) : error ? (
         <div className="text-center py-16">
-          <p className="text-zinc-500 text-sm">{error}</p>
+          <X className="w-10 h-10 text-destructive mx-auto mb-3" />
+          <p className="text-zinc-400 text-sm">{error}</p>
+          <button onClick={() => window.location.reload()} className="mt-4 text-teal text-sm">Try again</button>
         </div>
-      ) : filtered.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map(ex => (
-            <Link key={ex.id} to={`/hf-ai/exercise/${ex.id}`} className="group rounded-2xl border border-border bg-card p-5 hover:border-teal/30 transition-all">
-              <div className="flex items-start justify-between mb-3">
-                <div className="w-10 h-10 rounded-lg bg-teal/10 flex items-center justify-center">
-                  <Dumbbell className="w-5 h-5 text-teal" />
-                </div>
-                <div className="flex gap-1">
-                  {ex.difficulty && <span className="text-[9px] tracking-wide uppercase text-zinc-500 bg-muted px-2 py-0.5 rounded-full capitalize">{ex.difficulty}</span>}
-                </div>
-              </div>
-              <h3 className="font-bold text-white text-base mb-1 group-hover:text-teal transition-colors">{ex.name}</h3>
-              {ex.target_muscles?.length > 0 && <p className="text-xs text-teal mb-2">{ex.target_muscles.slice(0, 3).join(' · ')}</p>}
-              {ex.description && <p className="text-xs text-zinc-500 line-clamp-2">{ex.description}</p>}
-              <div className="flex flex-wrap gap-2 mt-3 text-[10px] text-zinc-600">
-                <span className="capitalize">{ex.equipment?.replace(/_/g, ' ')}</span>
-                <span>•</span>
-                <span className="capitalize">{ex.movement_type?.replace(/_/g, ' ')}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+      ) : visible.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {visible.map(ex => (
+              <ExerciseCard key={ex.id} exercise={ex} />
+            ))}
+          </div>
+          {hasMore && (
+            <div className="text-center mt-8">
+              <button
+                onClick={() => setVisibleCount(prev => prev + PAGE_SIZE)}
+                className="inline-flex items-center gap-2 border border-border text-zinc-400 font-bold text-xs uppercase px-6 py-3 rounded-lg hover:text-teal hover:border-teal/30 transition-all"
+              >
+                Load More ({filtered.length - visibleCount} remaining)
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-center py-16">
-          <Dumbbell className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
+          <DumbbellIcon className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
           <p className="text-zinc-500 text-sm">No exercises match your filters.</p>
           <p className="text-zinc-600 text-xs mt-1">Try adjusting your search or clearing filters.</p>
         </div>
       )}
     </div>
+  );
+}
+
+function FilterDropdown({ label, value, options, onChange }) {
+  return (
+    <div>
+      <p className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold mb-2">{label}</p>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-teal/50"
+      >
+        <option value="">All</option>
+        {options.map(opt => (
+          <option key={opt} value={opt}>{opt}</option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function ExerciseCard({ exercise }) {
+  const [gifError, setGifError] = useState(false);
+
+  return (
+    <Link
+      to={`/hf-ai/exercise/${exercise.id}`}
+      className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-teal/30 transition-all"
+    >
+      {/* Media */}
+      <div className="relative h-40 bg-muted overflow-hidden">
+        {exercise.gif_url && !gifError ? (
+          <img
+            src={exercise.gif_url}
+            alt={exercise.name}
+            onError={() => setGifError(true)}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : exercise.image_url ? (
+          <img
+            src={exercise.image_url}
+            alt={exercise.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <Dumbbell className="w-10 h-10 text-zinc-700" />
+          </div>
+        )}
+        {exercise.is_featured && (
+          <span className="absolute top-2 right-2 text-[9px] tracking-wide uppercase text-white bg-teal px-2 py-0.5 rounded-full font-bold">Featured</span>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="p-4">
+        <h3 className="font-bold text-white text-sm mb-1 group-hover:text-teal transition-colors line-clamp-1 capitalize">{exercise.name}</h3>
+        <div className="flex flex-wrap gap-2 text-[10px] text-zinc-500 mb-2">
+          {exercise.body_part && <span className="capitalize">{exercise.body_part}</span>}
+          {exercise.equipment && (
+            <>
+              <span>•</span>
+              <span className="capitalize">{exercise.equipment}</span>
+            </>
+          )}
+        </div>
+        {exercise.target && (
+          <p className="text-xs text-teal mb-2 capitalize">Target: {exercise.target}</p>
+        )}
+        <div className="flex items-center gap-1 text-[10px] text-zinc-600 group-hover:text-teal transition-colors">
+          <Eye className="w-3 h-3" /> View Exercise
+        </div>
+      </div>
+    </Link>
   );
 }

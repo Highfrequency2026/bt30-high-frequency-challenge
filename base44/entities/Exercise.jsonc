@@ -2,127 +2,113 @@
   "name": "Exercise",
   "type": "object",
   "properties": {
+    "source_id": {
+      "type": "string",
+      "description": "Unique source identifier \u2014 preserved as text to keep leading zeros (e.g. 0001)"
+    },
     "name": {
       "type": "string"
     },
-    "description": {
+    "category": {
+      "type": "string"
+    },
+    "body_part": {
+      "type": "string"
+    },
+    "equipment": {
+      "type": "string"
+    },
+    "target": {
       "type": "string"
     },
     "muscle_group": {
-      "type": "string",
-      "enum": [
-        "full_body",
-        "chest",
-        "back",
-        "shoulders",
-        "arms",
-        "core",
-        "glutes",
-        "quads",
-        "hamstrings",
-        "calves"
-      ]
+      "type": "string"
     },
-    "equipment": {
-      "type": "string",
-      "enum": [
-        "none",
-        "dumbbells",
-        "resistance_bands",
-        "barbell",
-        "cable_machine",
-        "machines",
-        "kettlebells",
-        "pull_up_bar",
-        "full_gym"
-      ]
+    "secondary_muscles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "instructions_en": {
+      "type": "string"
+    },
+    "instruction_steps_en": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "instructions_es": {
+      "type": "string"
+    },
+    "instructions_fr": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "gif_url": {
+      "type": "string"
+    },
+    "media_id": {
+      "type": "string"
+    },
+    "attribution": {
+      "type": "string"
+    },
+    "source_created_at": {
+      "type": "string"
+    },
+    "source_name": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
     },
     "difficulty": {
-      "type": "string",
-      "enum": [
-        "beginner",
-        "intermediate",
-        "advanced"
-      ]
-    },
-    "movement_type": {
-      "type": "string",
-      "enum": [
-        "push",
-        "pull",
-        "squat",
-        "hinge",
-        "lunge",
-        "carry",
-        "rotation",
-        "anti_rotation",
-        "isolation",
-        "conditioning",
-        "mobility"
-      ]
-    },
-    "workout_location": {
-      "type": "string",
-      "enum": [
-        "gym",
-        "home",
-        "outdoor"
-      ]
-    },
-    "target_muscles": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "instructions": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "form_tips": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "common_mistakes": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "easier_modification": {
       "type": "string"
     },
-    "harder_progression": {
-      "type": "string"
-    },
-    "sets_recommended": {
-      "type": "string"
-    },
-    "reps_recommended": {
-      "type": "string"
-    },
-    "rest_seconds": {
-      "type": "number"
-    },
-    "tempo": {
-      "type": "string"
-    },
-    "video_url": {
-      "type": "string"
-    },
-    "thumbnail_url": {
+    "custom_notes": {
       "type": "string"
     }
   },
   "required": [
-    "name",
-    "muscle_group",
-    "equipment",
-    "difficulty",
-    "movement_type"
-  ]
+    "source_id",
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.is_active": true
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
 }
