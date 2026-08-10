@@ -1,8 +1,6 @@
 import React from 'react';
 
-const LOGO_URL = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/f1f9fe9d8_ChatGPTImageJul31202605_45_18PM.png";
-
-const darkFilter = 'invert(1) hue-rotate(180deg)';
+const LOGO_URL = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/584e19fbe_ChatGPTImageAug9202606_29_28PM.png";
 
 export default function HFLogo({ compact = false, className = '' }) {
   if (compact) {
@@ -12,7 +10,6 @@ export default function HFLogo({ compact = false, className = '' }) {
           src={LOGO_URL}
           alt="High Frequency"
           className="w-full h-full object-cover"
-          style={{ filter: darkFilter, objectPosition: 'center 15%' }}
         />
       </div>
     );
@@ -21,8 +18,7 @@ export default function HFLogo({ compact = false, className = '' }) {
     <img
       src={LOGO_URL}
       alt="High Frequency — Digital Media"
-      className={`w-32 h-auto ${className}`}
-      style={{ filter: darkFilter }}
+      className={`w-32 h-auto rounded-lg ${className}`}
     />
   );
 }

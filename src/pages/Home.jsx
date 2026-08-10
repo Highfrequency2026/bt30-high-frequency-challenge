@@ -5,7 +5,7 @@ import { Image } from '@/components/ui/image';
 import { BRE_IMG, workoutDays } from '@/data/challengeData';
 import { useWorkoutProgress } from '@/hooks/useWorkoutProgress';
 
-const HF_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/dfd8f711f_ChatGPTImageJun30202601_30_25PM.png";
+const HF_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/584e19fbe_ChatGPTImageAug9202606_29_28PM.png";
 
 const BT_COLLAB_LOGO = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/12a4b6940_ChatGPTImageAug1202608_03_36AM.png";
 
@@ -32,8 +32,8 @@ export default function Home() {
           <img
             src={HF_LOGO}
             alt="High Frequency — Private Fitness Club"
-            className="w-80 md:w-[30rem] lg:w-[40rem] h-auto mb-8 object-contain"
-            style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 50px rgba(69, 179, 179, 0.3))' }}
+            className="w-72 md:w-[26rem] lg:w-[34rem] h-auto mb-8 object-contain rounded-2xl"
+            style={{ filter: 'drop-shadow(0 10px 40px rgba(0, 0, 0, 0.5))' }}
           />
 
           <p className="text-sm md:text-base text-zinc-400 font-light max-w-xl leading-relaxed mb-2">
