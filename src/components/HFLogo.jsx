@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LOGO_URL = "https://media.base44.com/images/public/6a6d316d80e436e8127c02a4/584e19fbe_ChatGPTImageAug9202606_29_28PM.png";
+const LOGO_URL = "https://base44.app/api/apps/6a6d316d80e436e8127c02a4/files/mp/public/6a6d316d80e436e8127c02a4/d9f159313_hf-logo-transparent.png";
 
 export default function HFLogo({ compact = false, className = '' }) {
   if (compact) {
@@ -18,7 +18,7 @@ export default function HFLogo({ compact = false, className = '' }) {
     <img
       src={LOGO_URL}
       alt="High Frequency — Digital Media"
-      className={`w-32 h-auto rounded-lg ${className}`}
+      className={`w-32 h-auto ${className}`}
     />
   );
 }
