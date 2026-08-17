@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, Dumbbell, AlertCircle, Check, Play, Sparkles, Heart, Plus, Youtube } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useToast } from '@/components/ui/use-toast';
+import { getExerciseImage } from '@/data/exerciseImages';
 
 export default function ExerciseDetail() {
   const { id } = useParams();
@@ -10,7 +11,6 @@ export default function ExerciseDetail() {
   const { toast } = useToast();
   const [exercise, setExercise] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [gifError, setGifError] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [addingToWorkout, setAddingToWorkout] = useState(false);
 
@@ -60,7 +60,7 @@ export default function ExerciseDetail() {
           equipment: exercise.equipment,
           instructions: exercise.instruction_steps_en || [],
           video_url: exercise.gif_url || '',
-          thumbnail_url: exercise.image_url || '',
+          thumbnail_url: getExerciseImage(exercise),
         }],
         source: 'manual',
       });
@@ -120,25 +120,11 @@ export default function ExerciseDetail() {
       {/* Animated demonstration */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden mb-6">
         <div className="relative h-64 md:h-80 bg-muted flex items-center justify-center">
-          {exercise.gif_url && !gifError ? (
-            <img
-              src={exercise.gif_url}
-              alt={exercise.name}
-              onError={() => setGifError(true)}
-              className="w-full h-full object-cover"
-            />
-          ) : exercise.image_url ? (
-            <img
-              src={exercise.image_url}
-              alt={exercise.name}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="flex flex-col items-center gap-2">
-              <Dumbbell className="w-12 h-12 text-zinc-700" />
-              <p className="text-xs text-zinc-600">No media available</p>
-            </div>
-          )}
+          <img
+            src={getExerciseImage(exercise)}
+            alt={exercise.name}
+            className="w-full h-full object-cover"
+          />
           {exercise.attribution && (
             <span className="absolute bottom-2 right-2 text-[9px] text-zinc-500 bg-black/60 px-2 py-1 rounded">
               {exercise.attribution}

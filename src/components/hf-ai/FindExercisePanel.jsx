@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Dumbbell, X, Filter, Eye, Loader2, Library } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { getExerciseImage } from '@/data/exerciseImages';
 
 export default function FindExercisePanel() {
   const [exercises, setExercises] = useState([]);
@@ -149,7 +150,7 @@ function FilterDropdown({ label, value, options, onChange }) {
 }
 
 function ExerciseResultCard({ exercise }) {
-  const [gifError, setGifError] = useState(false);
+  const imgSrc = getExerciseImage(exercise);
 
   return (
     <Link
@@ -157,15 +158,7 @@ function ExerciseResultCard({ exercise }) {
       className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-teal/30 transition-all"
     >
       <div className="relative h-36 bg-muted overflow-hidden">
-        {exercise.gif_url && !gifError ? (
-          <img src={exercise.gif_url} alt={exercise.name} onError={() => setGifError(true)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-        ) : exercise.image_url ? (
-          <img src={exercise.image_url} alt={exercise.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Dumbbell className="w-8 h-8 text-zinc-700" />
-          </div>
-        )}
+        <img src={imgSrc} alt={exercise.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
       </div>
       <div className="p-4">
         <h3 className="font-bold text-white text-sm mb-1 group-hover:text-teal transition-colors line-clamp-1 capitalize">{exercise.name}</h3>

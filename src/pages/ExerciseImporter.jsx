@@ -54,6 +54,17 @@ export default function ExerciseImporter() {
 
   const progress = totalBatches > 0 ? Math.round((currentBatch / totalBatches) * 100) : 0;
 
+  // The builder preview runs in an iframe and uses the Test database; the
+  // published site runs standalone and uses Production. The backend function
+  // accepts a dataEnv param so it writes to the correct environment.
+  function detectDataEnv() {
+    try {
+      return window.self !== window.top ? 'dev' : 'prod';
+    } catch {
+      return 'dev';
+    }
+  }
+
   async function fetchDataset() {
     // Try direct fetch first (GitHub raw supports CORS)
     try {
@@ -71,33 +82,15 @@ export default function ExerciseImporter() {
   }
 
   async function importBatch(batch, batchIndex) {
-    // Use the frontend entity SDK directly so writes respect the active data
-    // environment (Test vs Production). Backend functions don't receive the
-    // X-Data-Env header on invoke, so they always hit Production — which is
-    // why everything was being skipped as duplicates.
-    const mapped = batch.map(mapExercise);
-    const sourceIds = mapped.map(m => m.source_id);
-    const existing = await base44.entities.Exercise.filter(
-      { source_id: { $in: sourceIds } },
-      '-created_date',
-      100
-    );
-    const existingIds = new Set(existing.map(e => e.source_id));
-    const toCreate = mapped.filter(m => !existingIds.has(m.source_id));
-    const skipped = mapped.length - toCreate.length;
-
-    let imported = 0;
-    let errors = 0;
-    if (toCreate.length > 0) {
-      try {
-        await base44.entities.Exercise.bulkCreate(toCreate);
-        imported = toCreate.length;
-      } catch (err) {
-        console.error('Bulk create failed:', err.message);
-        errors = toCreate.length;
-      }
-    }
-    return { imported, skipped, errors };
+    // Legacy per-batch path (kept for the retry-failed-batch flow). Targets the
+    // detected environment via the backend function's dataEnv param.
+    const dataEnv = detectDataEnv();
+    const response = await base44.functions.invoke('import-exercises', {
+      action: 'import',
+      dataEnv,
+      batch,
+    });
+    return response.data;
   }
 
   async function startImport() {
@@ -111,60 +104,30 @@ export default function ExerciseImporter() {
   async function runImport() {
     cancelRef.current = false;
     setShowConfirm(false);
-    setStatus('fetching');
-    setStatusMessage('Fetching exercise dataset from GitHub...');
+    setStatus('importing');
+    setStatusMessage('Importing exercise dataset — this runs server-side and may take a minute...');
     setImportedCount(0);
     setSkippedCount(0);
     setErrorCount(0);
     setCurrentBatch(0);
+    setTotalBatches(1);
     setLastFailedBatch(null);
 
     try {
-      let data = cachedData;
-      if (!data) {
-        data = await fetchDataset();
-        setCachedData(data);
-      }
-
-      setTotalRecords(data.length);
-      const batches = Math.ceil(data.length / BATCH_SIZE);
-      setTotalBatches(batches);
-      setStatus('importing');
-
-      // Clear existing if replace is checked
-      if (replaceExisting) {
-        setStatusMessage('Deleting existing exercises...');
-        await base44.entities.Exercise.deleteMany({});
-      }
-
-      for (let i = 0; i < batches; i++) {
-        if (cancelRef.current) {
-          setStatusMessage('Import cancelled by user.');
-          setStatus('error');
-          return;
-        }
-
-        setCurrentBatch(i + 1);
-        const batch = data.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE);
-        setStatusMessage(`Importing batch ${i + 1} of ${batches} (${batch.length} records)...`);
-
-        try {
-          const result = await importBatch(batch, i);
-          setImportedCount(prev => prev + (result.imported || 0));
-          setSkippedCount(prev => prev + (result.skipped || 0));
-          setErrorCount(prev => prev + (result.errors || 0));
-        } catch (err) {
-          console.error(`Batch ${i + 1} failed:`, err.message);
-          setErrorCount(prev => prev + batch.length);
-          setLastFailedBatch({ index: i, data: batch });
-          setStatusMessage(`Batch ${i + 1} failed: ${err.message}. Click "Retry Failed Batch" to try again.`);
-          setStatus('error');
-          return;
-        }
-      }
-
+      const dataEnv = detectDataEnv();
+      const response = await base44.functions.invoke('import-exercises', {
+        action: 'importAll',
+        dataEnv,
+        replace: replaceExisting,
+      });
+      const result = response.data;
+      setTotalRecords(result.total);
+      setImportedCount(result.imported || 0);
+      setSkippedCount(result.skipped || 0);
+      setErrorCount(result.errors || 0);
+      setCurrentBatch(1);
       setStatus('completed');
-      setStatusMessage(`Import complete! ${importedCount + skippedCount + errorCount} total records processed.`);
+      setStatusMessage(`Import complete! ${result.imported} imported, ${result.skipped} skipped, ${result.errors} errors.`);
     } catch (err) {
       console.error('Import failed:', err.message);
       setStatus('error');

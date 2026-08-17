@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Dumbbell, Filter, X, ChevronRight, Sparkles, Dumbbell as DumbbellIcon, Play, Eye } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { getExerciseImage } from '@/data/exerciseImages';
 
 const PAGE_SIZE = 24;
 
@@ -221,7 +222,7 @@ function FilterDropdown({ label, value, options, onChange }) {
 }
 
 function ExerciseCard({ exercise }) {
-  const [gifError, setGifError] = useState(false);
+  const imgSrc = getExerciseImage(exercise);
 
   return (
     <Link
@@ -230,24 +231,11 @@ function ExerciseCard({ exercise }) {
     >
       {/* Media */}
       <div className="relative h-40 bg-muted overflow-hidden">
-        {exercise.gif_url && !gifError ? (
-          <img
-            src={exercise.gif_url}
-            alt={exercise.name}
-            onError={() => setGifError(true)}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : exercise.image_url ? (
-          <img
-            src={exercise.image_url}
-            alt={exercise.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Dumbbell className="w-10 h-10 text-zinc-700" />
-          </div>
-        )}
+        <img
+          src={imgSrc}
+          alt={exercise.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
         {exercise.is_featured && (
           <span className="absolute top-2 right-2 text-[9px] tracking-wide uppercase text-white bg-teal px-2 py-0.5 rounded-full font-bold">Featured</span>
         )}
