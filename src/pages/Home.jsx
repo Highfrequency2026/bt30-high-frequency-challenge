@@ -32,7 +32,7 @@ export default function Home() {
           <img
             src={HF_LOGO}
             alt="High Frequency — Private Fitness Club"
-            className="w-72 md:w-[26rem] lg:w-[34rem] h-auto mb-8 object-contain"
+            className="w-80 md:w-[32rem] lg:w-[40rem] h-auto mb-8 object-contain"
             style={{ filter: 'drop-shadow(0 0 50px rgba(69, 179, 179, 0.35))' }}
           />
 
@@ -73,7 +73,7 @@ export default function Home() {
         <img
           src={BT_COLLAB_LOGO}
           alt="Bre Tiesi × High Frequency — BT30"
-          className="absolute top-4 right-4 md:top-6 md:right-8 z-10 w-40 md:w-52 lg:w-60 h-auto object-contain pointer-events-none"
+          className="absolute top-4 right-4 md:top-6 md:right-8 z-10 w-52 md:w-64 lg:w-72 h-auto object-contain pointer-events-none"
           style={{ filter: 'brightness(1.1) contrast(1.1) drop-shadow(0 4px 20px rgba(0,0,0,0.6))' }}
         />
 
