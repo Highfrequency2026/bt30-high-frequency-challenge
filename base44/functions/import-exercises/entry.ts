@@ -142,6 +142,70 @@ export default async function(req: Request): Promise<Response> {
       return Response.json({ deleted: result?.deleted_count || result?.count || 'all' });
     }
 
+    if (action === 'importCurated') {
+      const { urls, replace } = body;
+      if (!Array.isArray(urls)) return Response.json({ error: 'urls must be an array' }, { status: 400 });
+
+      // Fetch all curated JSON files
+      let allRaw: any[] = [];
+      for (const u of urls) {
+        const r = await fetch(u);
+        if (!r.ok) throw new Error(`Failed to fetch ${u}: ${r.status}`);
+        const data = await r.json();
+        allRaw = allRaw.concat(data);
+      }
+
+      if (replace) {
+        await base44.entities.Exercise.deleteMany({});
+      }
+
+      // Map to entity schema + dedupe by source_id within the batch
+      const seen = new Set();
+      const mapped = allRaw.map((ex: any) => ({
+        source_id: String(ex.id),
+        name: ex.name || '',
+        category: ex.category || '',
+        body_part: ex.bodyPart || '',
+        equipment: ex.equipment || '',
+        target: ex.target || '',
+        muscle_group: ex.target || '',
+        secondary_muscles: ex.secondaryMuscles || [],
+        instructions_en: ex.description || '',
+        instruction_steps_en: ex.instructions || [],
+        instructions_es: '',
+        instructions_fr: '',
+        image_url: '',
+        gif_url: '',
+        media_id: '',
+        attribution: '',
+        source_created_at: '',
+        source_name: 'curated-gym-dataset',
+        is_active: true,
+        is_featured: false,
+        difficulty: ex.difficulty || '',
+      })).filter((m: any) => {
+        if (seen.has(m.source_id)) return false;
+        seen.add(m.source_id);
+        return true;
+      });
+
+      const batchSize = 50;
+      let imported = 0;
+      let errors = 0;
+      for (let i = 0; i < mapped.length; i += batchSize) {
+        const batch = mapped.slice(i, i + batchSize);
+        try {
+          await base44.entities.Exercise.bulkCreate(batch);
+          imported += batch.length;
+        } catch (err: any) {
+          console.error(`Curated batch ${i / batchSize + 1} failed:`, err.message);
+          errors += batch.length;
+        }
+      }
+
+      return Response.json({ fetched: allRaw.length, total: mapped.length, imported, errors });
+    }
+
     return Response.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error: any) {
     console.error('Import exercises error:', error.message);
