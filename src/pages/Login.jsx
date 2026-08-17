@@ -50,6 +50,13 @@ export default function Login() {
           >
             Create one
           </Link>
+          <span className="mx-2 text-muted-foreground/40">·</span>
+          <Link
+            to={"/verify-email" + (returnTo !== "/" ? "?returnTo=" + encodeURIComponent(returnTo) : "")}
+            className="text-primary font-medium hover:underline"
+          >
+            Verify your email
+          </Link>
         </>
       }
     >
