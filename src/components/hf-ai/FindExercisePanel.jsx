@@ -161,11 +161,18 @@ function ExerciseResultCard({ exercise }) {
         <img src={imgSrc} alt={exercise.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
       </div>
       <div className="p-4">
-        <h3 className="font-bold text-white text-sm mb-1 group-hover:text-teal transition-colors line-clamp-1 capitalize">{exercise.name}</h3>
+        <h3 className="font-bold text-white text-sm mb-1.5 group-hover:text-teal transition-colors line-clamp-1 capitalize">{exercise.name}</h3>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {exercise.target && <span className="text-[9px] tracking-wide uppercase text-teal bg-teal/10 px-1.5 py-0.5 rounded capitalize">{exercise.target}</span>}
+          {exercise.difficulty && <span className="text-[9px] tracking-wide uppercase text-zinc-400 bg-muted/50 px-1.5 py-0.5 rounded capitalize">{exercise.difficulty}</span>}
+        </div>
         <div className="flex flex-wrap gap-2 text-[10px] text-zinc-500 mb-2">
           {exercise.body_part && <span className="capitalize">{exercise.body_part}</span>}
           {exercise.equipment && <><span>•</span><span className="capitalize">{exercise.equipment}</span></>}
         </div>
+        {exercise.instructions_en && (
+          <p className="text-[11px] text-zinc-400 leading-relaxed line-clamp-2 mb-2">{exercise.instructions_en}</p>
+        )}
         <div className="flex items-center gap-1 text-[10px] text-zinc-600 group-hover:text-teal transition-colors">
           <Eye className="w-3 h-3" /> View Details
         </div>
