@@ -54,7 +54,7 @@ export default async function(req: Request): Promise<Response> {
       const sourceIds = mapped.map((m: any) => m.source_id);
 
       // Check for existing source_ids to skip duplicates
-      const existing = await base44.asServiceRole.entities.Exercise.filter(
+      const existing = await base44.entities.Exercise.filter(
         { source_id: { $in: sourceIds } },
         '-created_date',
         100
@@ -69,7 +69,7 @@ export default async function(req: Request): Promise<Response> {
 
       if (toCreate.length > 0) {
         try {
-          await base44.asServiceRole.entities.Exercise.bulkCreate(toCreate);
+          await base44.entities.Exercise.bulkCreate(toCreate);
           imported = toCreate.length;
         } catch (err: any) {
           console.error('Bulk create failed:', err.message);
@@ -81,7 +81,7 @@ export default async function(req: Request): Promise<Response> {
     }
 
     if (action === 'clear') {
-      const result = await base44.asServiceRole.entities.Exercise.deleteMany({});
+      const result = await base44.entities.Exercise.deleteMany({});
       return Response.json({ deleted: result?.deleted_count || result?.count || 'all' });
     }
 
