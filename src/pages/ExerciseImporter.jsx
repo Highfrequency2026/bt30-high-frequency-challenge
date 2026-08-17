@@ -5,7 +5,34 @@ import { base44 } from '@/api/base44Client';
 import { useAuth } from '@/lib/AuthContext';
 
 const GITHUB_URL = 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/data/exercises.json';
+const GITHUB_BASE = 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/data/';
+const SOURCE_NAME = 'hasaneyldrm/exercises-dataset';
 const BATCH_SIZE = 40;
+
+function mapExercise(raw) {
+  return {
+    source_id: String(raw.id),
+    name: raw.name || '',
+    category: raw.category || '',
+    body_part: raw.body_part || '',
+    equipment: raw.equipment || '',
+    target: raw.target || '',
+    muscle_group: raw.muscle_group || '',
+    secondary_muscles: raw.secondary_muscles || [],
+    instructions_en: raw.instructions?.en || '',
+    instruction_steps_en: raw.instruction_steps?.en || [],
+    instructions_es: raw.instructions?.es || '',
+    instructions_fr: raw.instructions?.fr || '',
+    image_url: raw.image ? GITHUB_BASE + raw.image : '',
+    gif_url: raw.gif_url ? GITHUB_BASE + raw.gif_url : '',
+    media_id: raw.media_id || '',
+    attribution: raw.attribution || '',
+    source_created_at: raw.created_at || '',
+    source_name: SOURCE_NAME,
+    is_active: true,
+    is_featured: false,
+  };
+}
 
 export default function ExerciseImporter() {
   const navigate = useNavigate();
@@ -44,11 +71,33 @@ export default function ExerciseImporter() {
   }
 
   async function importBatch(batch, batchIndex) {
-    const response = await base44.functions.invoke('import-exercises', {
-      action: 'import',
-      batch,
-    });
-    return response.data;
+    // Use the frontend entity SDK directly so writes respect the active data
+    // environment (Test vs Production). Backend functions don't receive the
+    // X-Data-Env header on invoke, so they always hit Production — which is
+    // why everything was being skipped as duplicates.
+    const mapped = batch.map(mapExercise);
+    const sourceIds = mapped.map(m => m.source_id);
+    const existing = await base44.entities.Exercise.filter(
+      { source_id: { $in: sourceIds } },
+      '-created_date',
+      100
+    );
+    const existingIds = new Set(existing.map(e => e.source_id));
+    const toCreate = mapped.filter(m => !existingIds.has(m.source_id));
+    const skipped = mapped.length - toCreate.length;
+
+    let imported = 0;
+    let errors = 0;
+    if (toCreate.length > 0) {
+      try {
+        await base44.entities.Exercise.bulkCreate(toCreate);
+        imported = toCreate.length;
+      } catch (err) {
+        console.error('Bulk create failed:', err.message);
+        errors = toCreate.length;
+      }
+    }
+    return { imported, skipped, errors };
   }
 
   async function startImport() {
@@ -85,7 +134,7 @@ export default function ExerciseImporter() {
       // Clear existing if replace is checked
       if (replaceExisting) {
         setStatusMessage('Deleting existing exercises...');
-        await base44.functions.invoke('import-exercises', { action: 'clear' });
+        await base44.entities.Exercise.deleteMany({});
       }
 
       for (let i = 0; i < batches; i++) {
